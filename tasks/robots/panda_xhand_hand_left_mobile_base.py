@@ -1,0 +1,128 @@
+"""Upright Panda + LEFT RobotEra XHand1 on the full-size mobile base.
+
+Arm + the mirrored left XHand1, mounted on the dual robot's full-size trolley at
+``xyz="0 0.22 0"`` -- left of the trolley centre, where the dual robot's left arm sits.
+Dropped at the same root pose as ``panda_dual_xhand_hand_mobile_base``, this arm is
+kinematically identical joint-for-joint to that robot's left arm (pinned by
+``tests/test_xhand_mobile_base_rig.py``), so a single-arm subtask composes into the
+long-horizon task without re-deriving reach.
+
+RobotEra ships right-hand assets only; the left hand is the mirrored asset from
+``data_gen/teleop/make_mirrored_hand.py`` and keeps the right hand's joint sign
+convention, so one qpos vector means the same finger curl on both sides and the
+``hand_controller_gains`` tables apply unchanged (``gains_to_list`` strips the side).
+
+The URDF is GENERATED (``scripts/build_xhand_mobile_base_urdfs.py``). Only the hand
+chain carries ``left_``; the arm chain and the flange joint do not, exactly as in
+``panda_xhand_hand_right.urdf``, so the controller groups (``arm``/``hand``), the
+action layout and the 19-dim DOF count are identical to the right agent.
+"""
+
+from pathlib import Path
+
+from mani_skill.agents.registration import register_agent
+from mani_skill.utils import sapien_utils
+
+from tasks.config.contact_materials import apply_xhand_robot_contact_materials
+from tasks.robots.hand_controller_gains import (
+    HAND_JOINT_MAX_VELOCITY,
+    XHAND_HAND_ARMATURE,
+    XHAND_HAND_FRICTIONLOSS,
+    apply_joint_physics,
+    hand_urdf_config,
+    xhand_marker_links,
+    xhand_pad_links,
+)
+from tasks.robots.panda_xhand_hand_right import PandaXHandHandRight
+
+
+@register_agent()
+class PandaXHandHandLeftMobileBase(PandaXHandHandRight):
+    """Single LEFT XHand1 arm mounted where the dual robot's left arm sits."""
+
+    uid = "panda_xhand_hand_left_mobile_base"
+    _urdf_path = (
+        Path(__file__).parent.parent
+        / "assets"
+        / "urdf"
+        / "panda_xhand_hand_left_mobile_base.urdf"
+    )
+    urdf_path = str(_urdf_path.resolve())
+
+    # Hand-side names carry `left_` instead of `right_`. Gains resolve regardless
+    # (gains_to_list strips the side prefix), so only the name tables change;
+    # controllers, keyframes, sensors and TCP helpers come from the base agent.
+    hand_joint_names = [
+        "left_hand_thumb_bend_joint",
+        "left_hand_thumb_rota_joint1",
+        "left_hand_thumb_rota_joint2",
+        "left_hand_index_bend_joint",
+        "left_hand_index_joint1",
+        "left_hand_index_joint2",
+        "left_hand_mid_joint1",
+        "left_hand_mid_joint2",
+        "left_hand_ring_joint1",
+        "left_hand_ring_joint2",
+        "left_hand_pinky_joint1",
+        "left_hand_pinky_joint2",
+    ]
+
+    ee_link_name = "left_hand_link"  # palm / root
+
+    tip_link_name = [
+        "left_hand_thumb_rota_tip",
+        "left_hand_index_rota_tip",
+        "left_hand_mid_tip",
+        "left_hand_ring_tip",
+        "left_hand_pinky_tip",
+    ]
+
+    # Re-declared (not inherited): the parent builds this dict from ITS pad link
+    # names at class-definition time, which do not exist in this URDF.
+    urdf_config = hand_urdf_config(xhand_pad_links("left_"))
+
+    # Mirrors the geometry documented in tasks/assets/README.md.
+    mobile_base_horizontal_scale = 1.0
+    mobile_base_height = 0.91964257
+    mobile_base_arm_offset_y = 0.22
+
+    def _apply_frozen_contact_materials(self):
+        return apply_xhand_robot_contact_materials(
+            self.robot, xhand_pad_links("left_")
+        )
+
+    def _after_init(self):
+        # Same body as the right agent with the side prefix swapped: the right
+        # agent hard-codes "right_" for its clique table and marker links.
+        links = self.robot.get_links()
+        self.palm_link = sapien_utils.get_obj_by_name(links, self.ee_link_name)
+        self.tip_links = [
+            sapien_utils.get_obj_by_name(links, name) for name in self.tip_link_name
+        ]
+        self.tcp = self.palm_link
+        if not self.disable_self_collisions:
+            self._apply_self_collision_srdf(links, prefix="left_", arm_link="panda_link7",
+                                            base_bit=self._SELF_COLLISION_BASE_BIT)
+        apply_joint_physics(self.robot, self.hand_joint_names,
+                            frictionloss=XHAND_HAND_FRICTIONLOSS,
+                            armature=XHAND_HAND_ARMATURE,
+                            max_velocity=HAND_JOINT_MAX_VELOCITY,
+                            no_collision_links=xhand_marker_links("left_"))
+
+
+
+# ---------------------------------------------------------------------------
+# 90-degree angled mount (project rule: every hand end-effector rides the elbow
+# bracket). Same DOF / joint names / gains / keyframes as the straight agent --
+# only the fixed flange->hand transform changes (tasks/robots/angled_mount.py).
+# ---------------------------------------------------------------------------
+from tasks.robots.angled_mount import generate_angled_urdf as _generate_angled_urdf_generic  # noqa: E402
+
+
+@register_agent()
+class PandaXHandHandLeftAngledMobileBase(PandaXHandHandLeftMobileBase):
+    uid = "panda_xhand_hand_left_angled_mobile_base"
+    urdf_path = _generate_angled_urdf_generic(
+        PandaXHandHandLeftMobileBase._urdf_path, "panda_xhand_hand_left_angled_mobile_base.urdf", "xhand", [("left", "")],
+    )
+    _SELF_COLLISION_IGNORE_BASE_BIT = getattr(PandaXHandHandLeftMobileBase, "_SELF_COLLISION_IGNORE_BASE_BIT", 24)

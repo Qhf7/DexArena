@@ -1,0 +1,984 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="panda_wuji_hand_right_marvin_wristcam_v1">
+  <link name="panda_link0">
+    <visual>
+      <geometry>
+        <mesh filename="../franka_description/meshes/visual/link0.glb" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="../franka_description/meshes/collision/link0.stl" />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="-0.041018 -0.00014 0.049974" />
+      <mass value="0.629769" />
+      <inertia ixx="0.00315" ixy="8.2904e-07" ixz="0.00015" iyy="0.00388" iyz="8.2299e-06" izz="0.004285" />
+    </inertial>
+  </link>
+  <link name="panda_link1">
+    <visual>
+      <geometry>
+        <mesh filename="../franka_description/meshes/visual/link1.glb" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="../franka_description/meshes/collision/link1.stl" />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.003875 0.002081 -0.04762" />
+      <mass value="4.970684" />
+      <inertia ixx="0.70337" ixy="-0.000139" ixz="0.006772" iyy="0.70661" iyz="0.019169" izz="0.009117" />
+    </inertial>
+  </link>
+  <joint name="panda_joint1" type="revolute">
+    <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+    <origin rpy="0 0 0" xyz="0 0 0.333" />
+    <parent link="panda_link0" />
+    <child link="panda_link1" />
+    <axis xyz="0 0 1" />
+    <limit effort="87" lower="-2.8973" upper="2.8973" velocity="2.1750" />
+    <dynamics D="1" K="7000" damping="0.003" friction="0.0" mu_coulomb="0" mu_viscous="16" />
+  </joint>
+  <link name="panda_link2">
+    <visual>
+      <geometry>
+        <mesh filename="../franka_description/meshes/visual/link2.glb" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="../franka_description/meshes/collision/link2.stl" />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="-0.003141 -0.02872  0.003495" />
+      <mass value="0.646926" />
+      <inertia ixx="0.007962" ixy="-0.003925" ixz="0.010254" iyy="0.02811" iyz="0.000704" izz="0.025995" />
+    </inertial>
+  </link>
+  <joint name="panda_joint2" type="revolute">
+    <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-1.7628" soft_upper_limit="1.7628" />
+    <origin rpy="-1.5707963267948966 0 0" xyz="0 0 0" />
+    <parent link="panda_link1" />
+    <child link="panda_link2" />
+    <axis xyz="0 0 1" />
+    <limit effort="87" lower="-1.7628" upper="1.7628" velocity="2.1750" />
+    <dynamics D="1" K="7000" damping="0.003" friction="0.0" mu_coulomb="0" mu_viscous="16" />
+  </joint>
+  <link name="panda_link3">
+    <visual>
+      <geometry>
+        <mesh filename="../franka_description/meshes/visual/link3.glb" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="../franka_description/meshes/collision/link3.stl" />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="2.7518e-02 3.9252e-02 -6.6502e-02" />
+      <mass value="3.228604" />
+      <inertia ixx="0.037242" ixy="-0.004761" ixz="-0.011396" iyy="0.036155" iyz="-0.012805" izz="0.01083" />
+    </inertial>
+  </link>
+  <joint name="panda_joint3" type="revolute">
+    <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+    <origin rpy="1.5707963267948966 0 0" xyz="0 -0.316 0" />
+    <parent link="panda_link2" />
+    <child link="panda_link3" />
+    <axis xyz="0 0 1" />
+    <limit effort="87" lower="-2.8973" upper="2.8973" velocity="2.1750" />
+    <dynamics D="1" K="7000" damping="0.003" friction="0.0" mu_coulomb="0" mu_viscous="16" />
+  </joint>
+  <link name="panda_link4">
+    <visual>
+      <geometry>
+        <mesh filename="../franka_description/meshes/visual/link4.glb" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="../franka_description/meshes/collision/link4.stl" />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="-5.317e-02 1.04419e-01 2.7454e-02" />
+      <mass value="3.587895" />
+      <inertia ixx="0.025853" ixy="0.007796" ixz="-0.001332" iyy="0.019552" iyz="0.008641" izz="0.028323" />
+    </inertial>
+  </link>
+  <joint name="panda_joint4" type="revolute">
+    <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-3.0718" soft_upper_limit="-0.0698" />
+    <origin rpy="1.5707963267948966 0 0" xyz="0.0825 0 0" />
+    <parent link="panda_link3" />
+    <child link="panda_link4" />
+    <axis xyz="0 0 1" />
+    <limit effort="87" lower="-3.0718" upper="-0.0698" velocity="2.1750" />
+    <dynamics D="1" K="7000" damping="0.003" friction="0.0" mu_coulomb="0" mu_viscous="16" />
+  </joint>
+  <link name="panda_link5">
+    <visual>
+      <geometry>
+        <mesh filename="../franka_description/meshes/visual/link5.glb" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="../franka_description/meshes/collision/link5.stl" />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="-1.1953e-02 4.1065e-02 -3.8437e-02" />
+      <mass value="1.225946" />
+      <inertia ixx="0.035549" ixy="-0.002117" ixz="-0.004037" iyy="0.029474" iyz="0.000229" izz="0.008627" />
+    </inertial>
+  </link>
+  <joint name="panda_joint5" type="revolute">
+    <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+    <origin rpy="-1.5707963267948966 0 0" xyz="-0.0825 0.384 0" />
+    <parent link="panda_link4" />
+    <child link="panda_link5" />
+    <axis xyz="0 0 1" />
+    <limit effort="12" lower="-2.8973" upper="2.8973" velocity="2.6100" />
+    <dynamics D="1" K="7000" damping="0.003" friction="0.0" mu_coulomb="0" mu_viscous="16" />
+  </joint>
+  <link name="panda_link6">
+    <visual>
+      <geometry>
+        <mesh filename="../franka_description/meshes/visual/link6.glb" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="../franka_description/meshes/collision/link6.stl" />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="6.0149e-02 -1.4117e-02 -1.0517e-02" />
+      <mass value="1.666555" />
+      <inertia ixx="0.001964" ixy="0.000109" ixz="-0.001158" iyy="0.004354" iyz="0.000341" izz="0.005433" />
+    </inertial>
+  </link>
+  <joint name="panda_joint6" type="revolute">
+    <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-0.0175" soft_upper_limit="3.7525" />
+    <origin rpy="1.5707963267948966 0 0" xyz="0 0 0" />
+    <parent link="panda_link5" />
+    <child link="panda_link6" />
+    <axis xyz="0 0 1" />
+    <limit effort="12" lower="-0.0175" upper="3.7525" velocity="2.6100" />
+    <dynamics D="1" K="7000" damping="0.003" friction="0.0" mu_coulomb="0" mu_viscous="16" />
+  </joint>
+  <link name="panda_link7">
+    <visual>
+      <geometry>
+        <mesh filename="../franka_description/meshes/visual/link7.glb" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="../franka_description/meshes/collision/link7.stl" />
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="1.0517e-02 -4.252e-03 6.1597e-02" />
+      <mass value="0.735522" />
+      <inertia ixx="0.012516" ixy="-0.000428" ixz="-0.001196" iyy="0.010027" iyz="-0.000741" izz="0.004815" />
+    </inertial>
+  </link>
+  <joint name="panda_joint7" type="revolute">
+    <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973" />
+    <origin rpy="1.5707963267948966 0 0" xyz="0.088 0 0" />
+    <parent link="panda_link6" />
+    <child link="panda_link7" />
+    <axis xyz="0 0 1" />
+    <limit effort="12" lower="-2.8973" upper="2.8973" velocity="2.6100" />
+    <dynamics D="1" K="7000" damping="0.003" friction="0.0" mu_coulomb="0" mu_viscous="16" />
+  </joint>
+  <link name="panda_link8" />
+  <joint name="panda_joint8" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0.107" />
+    <parent link="panda_link7" />
+    <child link="panda_link8" />
+  </joint>
+  <joint name="panda_to_wuji_docking_joint" type="fixed">
+    <origin rpy="0 0 2.3561944902" xyz="0 0 0" />
+    <parent link="panda_link8" />
+    <child link="hand_docking_link" />
+  </joint>
+  <link name="hand_docking_link">
+    <inertial>
+      <origin xyz="0.0 0.000613 0.008094" rpy="0 0 0" />
+      <mass value="0.051956" />
+      <inertia ixx="1.814727e-05" ixy="-2.035277e-10" ixz="8.570371e-11" iyy="1.736668e-05" iyz="-4.906137e-07" izz="1.920788e-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/hand_docking_link.STL" />
+      </geometry>
+      <material name="wuji_docking_color">
+        <color rgba="0.7922 0.8196 0.9333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/hand_docking_link.STL" />
+      </geometry>
+    </collision>
+    <!-- Marvin Pro SH5WG runtime visual proxy v1; no added link/collision/inertia -->
+    <visual name="marvin_sh5wg_proxy_v1">
+      <origin xyz="0.06 0 0.012" rpy="0 -1.74532925199 0" />
+      <geometry>
+        <mesh filename="../marvin_wrist_camera_meshes/visual/marvin_sh5wg_proxy_v1.obj" scale="1 1 1" />
+      </geometry>
+    </visual>
+  </link>
+  <joint name="wuji_docking_to_palm_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0" />
+    <parent link="hand_docking_link" />
+    <child link="right_palm_link" />
+  </joint>
+  <link name="right_palm_link">
+    <inertial>
+      <origin xyz="-0.002979471 0.0004557176 0.03665409" rpy="0 0 0" />
+      <mass value="0.16914" />
+      <inertia ixx="0.00014" ixy="2.54e-06" ixz="6.91e-06" iyy="9.47e-05" iyz="-6.63e-06" izz="6e-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_palm_link.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_palm_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_finger1_link1">
+    <inertial>
+      <origin xyz="-0.002462817 -0.001242813 0.007780151" rpy="0 0 0" />
+      <mass value="0.0075" />
+      <inertia ixx="3.2e-07" ixy="-2e-08" ixz="0" iyy="3e-07" iyz="4e-08" izz="2.3e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger1_link1.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger1_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger1_joint1" type="revolute">
+    <origin xyz="0.0084399 0.020587 0.028893" rpy="-1.328 -0.37161 -0.7307" />
+    <parent link="right_palm_link" />
+    <child link="right_finger1_link1" />
+    <axis xyz="0 1 0" />
+    <limit lower="0.0475" upper="1.6033" effort="0.4452" velocity="8.587" />
+  </joint>
+  <link name="right_finger1_link2">
+    <inertial>
+      <origin xyz="-0.00116283 1.22067e-05 0.01566454" rpy="0 0 0" />
+      <mass value="0.0248" />
+      <inertia ixx="2.76e-06" ixy="2e-08" ixz="1e-08" iyy="2.81e-06" iyz="2e-08" izz="6.8e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger1_link2.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger1_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger1_joint2" type="revolute">
+    <origin xyz="-0.0047549 -0.0058191 0.014132" rpy="0.57428 0.23677 -1.3382" />
+    <parent link="right_finger1_link1" />
+    <child link="right_finger1_link2" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.1387" upper="0.9324" effort="0.4259" velocity="11.1" />
+  </joint>
+  <link name="right_finger1_link3">
+    <inertial>
+      <origin xyz="-0.001123534 -1.578957e-05 0.01305615" rpy="0 0 0" />
+      <mass value="0.0165" />
+      <inertia ixx="1.46e-06" ixy="0" ixz="-2e-08" iyy="1.42e-06" iyz="0" izz="4.5e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger1_link3.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger1_link3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger1_joint3" type="revolute">
+    <origin xyz="-0.000266705 0.0009915016 0.03466562" rpy="0.04904945 0.01731124 1.233052" />
+    <parent link="right_finger1_link2" />
+    <child link="right_finger1_link3" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.4642" upper="1.5623" effort="0.1888" velocity="12.863" />
+  </joint>
+  <link name="right_finger1_link4">
+    <inertial>
+      <origin xyz="-0.001192304 -0.0002139726 0.008211456" rpy="0 0 0" />
+      <mass value="0.0165" />
+      <inertia ixx="1.18e-06" ixy="0" ixz="1.2e-07" iyy="1.25e-06" iyz="0" izz="5.1e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger1_link4.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger1_link4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger1_joint4" type="revolute">
+    <origin xyz="0 0.0002 0.0295" rpy="0 0 0" />
+    <parent link="right_finger1_link3" />
+    <child link="right_finger1_link4" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.4699" upper="1.5568" effort="0.1468" velocity="13.578" />
+  </joint>
+  <link name="right_finger1_tip_link">
+    <inertial>
+      <origin xyz="-0.0001585375 8.133107e-05 -0.007177649" rpy="0 0 0" />
+      <mass value="0.0041" />
+      <inertia ixx="5.5e-07" ixy="0" ixz="2e-08" iyy="5.2e-07" iyz="0" izz="2.7e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger1_tip_link.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger1_tip_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger1_tip_fixed" type="fixed">
+    <origin xyz="-0.00105 -0.0002 0.0313" rpy="0 0 0" />
+    <parent link="right_finger1_link4" />
+    <child link="right_finger1_tip_link" />
+  </joint>
+  <link name="right_finger2_link1">
+    <inertial>
+      <origin xyz="-0.001329148 -3.291059e-08 0.000319873" rpy="0 0 0" />
+      <mass value="0.0032" />
+      <inertia ixx="8e-08" ixy="0" ixz="-3e-08" iyy="7e-08" iyz="0" izz="8e-08" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger2_link1.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger2_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger2_joint1" type="revolute">
+    <origin xyz="-0.0058701 0.029434 0.091917" rpy="-0.11071 -0.071139 -0.21822" />
+    <parent link="right_palm_link" />
+    <child link="right_finger2_link1" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.1585" upper="1.5604" effort="0.6188" velocity="8.203" />
+  </joint>
+  <link name="right_finger2_link2">
+    <inertial>
+      <origin xyz="-4.118201e-07 0.006157724 0.02091115" rpy="0 0 0" />
+      <mass value="0.033" />
+      <inertia ixx="6.31e-06" ixy="0" ixz="-1.6e-07" iyy="6.34e-06" iyz="0" izz="8.9e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger2_link2.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger2_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger2_joint2" type="revolute">
+    <origin xyz="0.0022 0 0.004000006" rpy="0 0 1.570796" />
+    <parent link="right_finger2_link1" />
+    <child link="right_finger2_link2" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.3700" upper="0.3700" effort="0.1822" velocity="8.115" />
+  </joint>
+  <link name="right_finger2_link3">
+    <inertial>
+      <origin xyz="-0.001121421 4.361278e-06 0.01576281" rpy="0 0 0" />
+      <mass value="0.0165" />
+      <inertia ixx="1.47e-06" ixy="0" ixz="3e-08" iyy="1.44e-06" iyz="0" izz="4.5e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger2_link3.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger2_link3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger2_joint3" type="revolute">
+    <origin xyz="0 0.004750282 0.04361766" rpy="0 0 -1.571065" />
+    <parent link="right_finger2_link2" />
+    <child link="right_finger2_link3" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.4777" upper="1.5485" effort="0.2251" velocity="12.863" />
+  </joint>
+  <link name="right_finger2_link4">
+    <inertial>
+      <origin xyz="-0.0008943811 0.0002170428 0.005351763" rpy="0 0 0" />
+      <mass value="0.014" />
+      <inertia ixx="9.5e-07" ixy="0" ixz="1.4e-07" iyy="8.6e-07" iyz="-1e-08" izz="3e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger2_link4.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger2_link4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger2_joint4" type="revolute">
+    <origin xyz="0 -0.0002 0.0295" rpy="0 0 0" />
+    <parent link="right_finger2_link3" />
+    <child link="right_finger2_link4" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.4683" upper="1.5753" effort="0.2170" velocity="13.578" />
+  </joint>
+  <link name="right_finger2_tip_link">
+    <inertial>
+      <origin xyz="-0.0002011089 3.863762e-06 -0.008610984" rpy="0 0 0" />
+      <mass value="0.00318" />
+      <inertia ixx="2e-07" ixy="0" ixz="0" iyy="2.1e-07" iyz="0" izz="1.3e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger2_tip_link.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger2_tip_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger2_tip_fixed" type="fixed">
+    <origin xyz="-0.00105 0.0002 0.0267" rpy="0 0 0" />
+    <parent link="right_finger2_link4" />
+    <child link="right_finger2_tip_link" />
+  </joint>
+  <link name="right_finger3_link1">
+    <inertial>
+      <origin xyz="-0.001329137 3.498697e-09 0.0003199368" rpy="0 0 0" />
+      <mass value="0.0032" />
+      <inertia ixx="8e-08" ixy="0" ixz="-3e-08" iyy="7e-08" iyz="0" izz="8e-08" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger3_link1.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger3_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger3_joint1" type="revolute">
+    <origin xyz="-0.01046 0.0074615 0.089544" rpy="-5.0886e-05 -0.087266 0.00058387" />
+    <parent link="right_palm_link" />
+    <child link="right_finger3_link1" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.1644" upper="1.5516" effort="0.6494" velocity="8.203" />
+  </joint>
+  <link name="right_finger3_link2">
+    <inertial>
+      <origin xyz="-4.164417e-07 0.006157583 0.02091119" rpy="0 0 0" />
+      <mass value="0.033" />
+      <inertia ixx="6.31e-06" ixy="0" ixz="-1.6e-07" iyy="6.34e-06" iyz="0" izz="8.9e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger3_link2.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger3_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger3_joint2" type="revolute">
+    <origin xyz="0.0022 0 0.004000006" rpy="0 0 1.570796" />
+    <parent link="right_finger3_link1" />
+    <child link="right_finger3_link2" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.3700" upper="0.3700" effort="0.1827" velocity="8.115" />
+  </joint>
+  <link name="right_finger3_link3">
+    <inertial>
+      <origin xyz="-0.001121418 4.330992e-06 0.01576282" rpy="0 0 0" />
+      <mass value="0.0165" />
+      <inertia ixx="1.47e-06" ixy="0" ixz="3e-08" iyy="1.44e-06" iyz="0" izz="4.5e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger3_link3.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger3_link3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger3_joint3" type="revolute">
+    <origin xyz="0 0.00475 0.04361769" rpy="0 0 -1.571065" />
+    <parent link="right_finger3_link2" />
+    <child link="right_finger3_link3" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.4739" upper="1.5512" effort="0.2078" velocity="12.863" />
+  </joint>
+  <link name="right_finger3_link4">
+    <inertial>
+      <origin xyz="-0.0008943605 0.00021705 0.005351766" rpy="0 0 0" />
+      <mass value="0.014" />
+      <inertia ixx="9.5e-07" ixy="0" ixz="1.4e-07" iyy="8.6e-07" iyz="-1e-08" izz="3e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger3_link4.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger3_link4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger3_joint4" type="revolute">
+    <origin xyz="0 -0.0002 0.0295" rpy="0 0 0" />
+    <parent link="right_finger3_link3" />
+    <child link="right_finger3_link4" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.4684" upper="1.5745" effort="0.2018" velocity="13.578" />
+  </joint>
+  <link name="right_finger3_tip_link">
+    <inertial>
+      <origin xyz="-0.0001897161 1.397167e-06 -0.009137505" rpy="0 0 0" />
+      <mass value="0.00318" />
+      <inertia ixx="2e-07" ixy="0" ixz="0" iyy="2.1e-07" iyz="0" izz="1.3e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger3_tip_link.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger3_tip_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger3_tip_fixed" type="fixed">
+    <origin xyz="-0.001049087 0.0002010395 0.0267" rpy="0 0 0" />
+    <parent link="right_finger3_link4" />
+    <child link="right_finger3_tip_link" />
+  </joint>
+  <link name="right_finger4_link1">
+    <inertial>
+      <origin xyz="-0.001329139 1.004755e-08 0.0003199476" rpy="0 0 0" />
+      <mass value="0.0032" />
+      <inertia ixx="8e-08" ixy="0" ixz="-3e-08" iyy="7e-08" iyz="0" izz="8e-08" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger4_link1.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger4_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger4_joint1" type="revolute">
+    <origin xyz="-0.0076649 -0.013712 0.084429" rpy="0.090375 -0.083436 0.047127" />
+    <parent link="right_palm_link" />
+    <child link="right_finger4_link1" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.1554" upper="1.5585" effort="0.6389" velocity="8.203" />
+  </joint>
+  <link name="right_finger4_link2">
+    <inertial>
+      <origin xyz="-4.161973e-07 0.006157583 0.02091119" rpy="0 0 0" />
+      <mass value="0.033" />
+      <inertia ixx="6.31e-06" ixy="0" ixz="-1.6e-07" iyy="6.34e-06" iyz="0" izz="8.9e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger4_link2.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger4_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger4_joint2" type="revolute">
+    <origin xyz="0.002200001 0 0.004000005" rpy="0 0 1.570796" />
+    <parent link="right_finger4_link1" />
+    <child link="right_finger4_link2" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.3700" upper="0.3700" effort="0.1832" velocity="8.115" />
+  </joint>
+  <link name="right_finger4_link3">
+    <inertial>
+      <origin xyz="-0.001121411 4.349371e-06 0.01576282" rpy="0 0 0" />
+      <mass value="0.0165" />
+      <inertia ixx="1.47e-06" ixy="0" ixz="3e-08" iyy="1.44e-06" iyz="0" izz="4.5e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger4_link3.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger4_link3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger4_joint3" type="revolute">
+    <origin xyz="0 0.004749999 0.04361769" rpy="0 0 -1.571065" />
+    <parent link="right_finger4_link2" />
+    <child link="right_finger4_link3" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.4765" upper="1.5487" effort="0.2249" velocity="12.863" />
+  </joint>
+  <link name="right_finger4_link4">
+    <inertial>
+      <origin xyz="-0.0008943615 0.0002170593 0.005351766" rpy="0 0 0" />
+      <mass value="0.014" />
+      <inertia ixx="9.5e-07" ixy="0" ixz="1.4e-07" iyy="8.6e-07" iyz="-1e-08" izz="3e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger4_link4.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger4_link4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger4_joint4" type="revolute">
+    <origin xyz="0 -0.0002 0.0295" rpy="0 0 0" />
+    <parent link="right_finger4_link3" />
+    <child link="right_finger4_link4" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.4777" upper="1.5634" effort="0.2044" velocity="13.578" />
+  </joint>
+  <link name="right_finger4_tip_link">
+    <inertial>
+      <origin xyz="-0.0002017576 -2.430502e-05 -0.008610591" rpy="0 0 0" />
+      <mass value="0.00318" />
+      <inertia ixx="2e-07" ixy="0" ixz="0" iyy="2.1e-07" iyz="0" izz="1.3e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger4_tip_link.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger4_tip_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger4_tip_fixed" type="fixed">
+    <origin xyz="-0.00105961 0.0001904508 0.0267" rpy="0 0 0" />
+    <parent link="right_finger4_link4" />
+    <child link="right_finger4_tip_link" />
+  </joint>
+  <link name="right_finger5_link1">
+    <inertial>
+      <origin xyz="-0.00132914 1.723477e-08 0.0003199686" rpy="0 0 0" />
+      <mass value="0.0032" />
+      <inertia ixx="8e-08" ixy="0" ixz="-3e-08" iyy="7e-08" iyz="0" izz="8e-08" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger5_link1.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger5_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger5_joint1" type="revolute">
+    <origin xyz="-0.002268651 -0.03400111 0.07428134" rpy="0.1924837 -0.09251723 0.1576728" />
+    <parent link="right_palm_link" />
+    <child link="right_finger5_link1" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.1626" upper="1.5585" effort="0.6441" velocity="8.203" />
+  </joint>
+  <link name="right_finger5_link2">
+    <inertial>
+      <origin xyz="-4.149393e-07 0.006157585 0.02091118" rpy="0 0 0" />
+      <mass value="0.033" />
+      <inertia ixx="6.31e-06" ixy="0" ixz="-1.6e-07" iyy="6.34e-06" iyz="0" izz="8.9e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger5_link2.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger5_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger5_joint2" type="revolute">
+    <origin xyz="0.002200001 0 0.004000005" rpy="0 0 1.570796" />
+    <parent link="right_finger5_link1" />
+    <child link="right_finger5_link2" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.3700" upper="0.3700" effort="0.1798" velocity="8.115" />
+  </joint>
+  <link name="right_finger5_link3">
+    <inertial>
+      <origin xyz="-0.00112141 4.370313e-06 0.01576283" rpy="0 0 0" />
+      <mass value="0.0165" />
+      <inertia ixx="1.47e-06" ixy="0" ixz="3e-08" iyy="1.44e-06" iyz="0" izz="4.5e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger5_link3.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger5_link3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger5_joint3" type="revolute">
+    <origin xyz="0 0.004749999 0.04361769" rpy="0 0 -1.571065" />
+    <parent link="right_finger5_link2" />
+    <child link="right_finger5_link3" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.4768" upper="1.5490" effort="0.2384" velocity="12.863" />
+  </joint>
+  <link name="right_finger5_link4">
+    <inertial>
+      <origin xyz="-0.0008943728 0.0002170646 0.005351761" rpy="0 0 0" />
+      <mass value="0.014" />
+      <inertia ixx="9.5e-07" ixy="0" ixz="1.4e-07" iyy="8.6e-07" iyz="-1e-08" izz="3e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger5_link4.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger5_link4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger5_joint4" type="revolute">
+    <origin xyz="0 -0.0002 0.0295" rpy="0 0 0" />
+    <parent link="right_finger5_link3" />
+    <child link="right_finger5_link4" />
+    <axis xyz="0 1 0" />
+    <limit lower="-0.4683" upper="1.5735" effort="0.1866" velocity="13.578" />
+  </joint>
+  <link name="right_finger5_tip_link">
+    <inertial>
+      <origin xyz="-0.0002033175 1.487152e-06 -0.008611063" rpy="0 0 0" />
+      <mass value="0.00318" />
+      <inertia ixx="2e-07" ixy="0" ixz="0" iyy="2.1e-07" iyz="0" izz="1.3e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger5_tip_link.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.8980392 0.9176471 0.9294118 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../wuji_hand_meshes/right_finger5_tip_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_finger5_tip_fixed" type="fixed">
+    <origin xyz="-0.001044639 0.0002113095 0.0267" rpy="0 0 0" />
+    <parent link="right_finger5_link4" />
+    <child link="right_finger5_tip_link" />
+  </joint>
+</robot>

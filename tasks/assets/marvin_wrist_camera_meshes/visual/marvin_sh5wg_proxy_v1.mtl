@@ -1,0 +1,21 @@
+# Marvin SH5WG runtime proxy v1 materials; appearance is not a published specification.
+newmtl housing
+Ka 0.018 0.019 0.021
+Kd 0.125 0.133 0.149
+Ks 0.320 0.330 0.350
+Ns 90.0
+d 1.0
+
+newmtl bezel
+Ka 0.030 0.031 0.034
+Kd 0.245 0.255 0.280
+Ks 0.420 0.430 0.450
+Ns 110.0
+d 1.0
+
+newmtl lens
+Ka 0.005 0.005 0.006
+Kd 0.012 0.014 0.018
+Ks 0.650 0.680 0.720
+Ns 180.0
+d 1.0
