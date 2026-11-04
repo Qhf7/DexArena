@@ -10,7 +10,6 @@ trolley base, and the combined URDFs that the tasks actually load.
 tasks/assets/
 ├── urdf/                     ← combined URDFs (arm + hand[+ adapter]); tasks load these
 ├── franka_description/       ← stock Franka Panda meshes (link0..7, visual + collision)
-├── base_meshes/              ← mounting-base meshes shared by the combined URDFs
 ├── mobile_base_meshes/       ← PartNet-Mobility 22870 trolley (meshes + textures)
 ├── marvin_wrist_camera_meshes/ ← wrist camera housing
 ├── sharpa_hand_meshes/       ← Sharpa Wave (with built-in wrist link)
