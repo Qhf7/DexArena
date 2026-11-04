@@ -140,7 +140,7 @@ class DexTask:
     @property
     def hand_dir(self) -> str:
         """The directory level a dataset sits under: the env id's hand token in lower case, the
-        rule `data_gen/teleop/dataset_layout.py` applies to every exported dataset."""
+        rule `data_gen/recordings/dataset_layout.py` applies to every exported dataset."""
         return self.env_id.split("-")[-2].lower()
 
     @property

@@ -2400,7 +2400,7 @@ def load_recorded_initial_raw_states(
     frame = frame.sort_values(["episode_index", "frame_index"])
     first_rows = frame.groupby("episode_index", sort=True).first()
 
-    from data_gen.teleop.episode_store import load_pending_episode
+    from data_gen.recordings.episode_store import load_pending_episode
 
     selected_frames = (
         tuple(int(value) for value in frame_indices)
@@ -2554,7 +2554,7 @@ def evaluate(
             recorded_episode_id: Optional[int] = None
             if recorded_initial_states:
                 recorded_episode_id = recorded_episode_ids[episode]
-                from data_gen.teleop.replay_recording import _set_raw_state
+                from data_gen.recordings.replay_recording import _set_raw_state
 
                 _set_raw_state(
                     env,

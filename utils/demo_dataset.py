@@ -140,7 +140,7 @@ def require_strict_recording_certificate(
     """Reject uncertified datasets emitted by the strict teleop recorder."""
     if "episode.source_hash" not in features:
         return None
-    from data_gen.teleop.lerobot_integrity import assert_valid_certificate
+    from data_gen.recordings.lerobot_integrity import assert_valid_certificate
 
     try:
         return assert_valid_certificate(dataset_root)
