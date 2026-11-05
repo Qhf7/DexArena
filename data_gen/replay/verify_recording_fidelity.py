@@ -65,7 +65,7 @@ question "is the recorded data faithful" is answered -- not "answered so far".
 
 ACTION REPLAY is reported alongside but judged separately: it is open-loop, so a
 divergence there is a property of the controller and the contact solver, not of
-the recording. See docs/lerobot_data_and_action_replay_zh.md.
+the recording.
 
 USAGE
     python -m data_gen.replay.verify_recording_fidelity <lerobot_root_or_pending_session>...
@@ -73,7 +73,8 @@ USAGE
     python -m data_gen.replay.verify_recording_fidelity <root> --action-replay
     python -m data_gen.replay.verify_recording_fidelity <root> --episodes 3 --stride 1
 Run from the repository root, in the ManiSkill conda env. For the office and
-table_clean families prefix the LD_PRELOAD line from scripts/run_pytest.sh.
+table_clean families preload the libgomp shipped in the coacd wheel
+(LD_PRELOAD=<site-packages>/coacd.libs/libgomp-*.so).
 """
 from __future__ import annotations
 

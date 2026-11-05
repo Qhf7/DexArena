@@ -98,14 +98,11 @@ from tasks.config.energy_fence import set_task_object_energy_fence
 from tasks.config.object_materials import object_material
 
 # ==========================================================================
-# RoboCasa MJCF absolute-path patcher (was tasks/table_clean_robocasa_mjcf.py)
+# RoboCasa MJCF absolute-path patcher
 # --------------------------------------------------------------------------
 # Absolute-path patcher for RoboCasa MJCF assets.
 #
-# Lifted from tasks/sweep_pick_brush_v1.py so the table-clean task modules are
-# self-contained: that module imports a robot uid which does not exist in
-# this repo, so importing it required a sys.modules stub just to reach one
-# helper.
+# Kept here so the table-clean task modules are self-contained.
 # ==========================================================================
 _FALLBACK_TEXTURE = base64.b64decode(
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M/wHwAF"
@@ -199,7 +196,7 @@ def prepare_robocasa_mjcf(model_dir: Path, cache_tag: str) -> Path:
 
 
 # ==========================================================================
-# Asset set: brush, dustpan, bin, debris (was tasks/table_clean_assets.py)
+# Asset set: brush, dustpan, bin, debris
 # --------------------------------------------------------------------------
 # Confirmed asset set for the single-arm table-clean (Sweep) task.
 #

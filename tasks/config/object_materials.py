@@ -20,7 +20,7 @@ same engine-side pad value. The number PhysX actually needs is derived from it:
 
 That formula follows from the contact combine rule, which was MEASURED on this
 PhysX build with a pull-to-slip experiment and is `average`, not min/max/multiply
-(see docs/friction_calibration.md).
+.
 
 Two consequences worth knowing:
 

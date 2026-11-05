@@ -141,7 +141,7 @@ class PandaWristCamImpedanceDefault(PandaStructureContactMixin, PandaWristCam):
 
     Only the ``*Vision-v1`` env variants use this agent; the state Open/Close
     track (incl. box-open) uses ``PandaImpedanceDefault`` (uid ``panda``). It is
-    defined here purely so the shared ``tasks.articulated_open_close`` module
+    defined here purely so the shared articulated open/close task code
     imports cleanly. Additive local shim mirroring the upstream benchmark branch;
     ``PandaImpedanceDefault`` above is left untouched.
     """

@@ -71,8 +71,6 @@ def make_env(args, *, num_envs, reconfiguration_freq, record_dir=None, max_steps
         env_kwargs["control_mode"] = args.control_mode
     if args.reward_mode is not None:
         env_kwargs["reward_mode"] = args.reward_mode
-    if args.obj_id is not None and "specific" in args.env_id.lower():
-        env_kwargs["obj_id"] = args.obj_id
     env_kwargs["max_episode_steps"] = args.env_max_episode_steps
     env = gym.make(args.env_id, num_envs=num_envs, reconfiguration_freq=reconfiguration_freq, **env_kwargs)
     if isinstance(env.action_space, gym.spaces.Dict):

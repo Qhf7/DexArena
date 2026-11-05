@@ -5,7 +5,7 @@ Joint names, controllers, keyframes, wrist cameras and TCP helpers match
 preserves the action and observation layouts across the two variants -- the same
 relationship ``panda_dual_wuji_hand_mobile_base`` has to its trapezoid sibling.
 
-The URDF is GENERATED (``scripts/build_xhand_mobile_base_urdfs.py``): the trolley +
+The URDF is generated (the build script is not part of this repository): the trolley +
 two upright Panda arms are copied verbatim from the frozen dual-wuji mobile URDF,
 so this is the same operating station every other family stands against.
 """

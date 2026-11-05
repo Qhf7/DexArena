@@ -52,13 +52,17 @@ arm 7 + hand 22 for one arm, 58 for the dual-arm robot). Each episode is labelle
 subtask's four registered instructions, 25 episodes each (the default; `--prompt` pins the whole
 dataset to one phrasing).
 
+The conversion and validation steps below need an `ffmpeg` executable on `PATH` and the FFmpeg
+shared libraries that `torchcodec` loads (`libavutil`, `libavcodec`, `libavformat`, `libavdevice`);
+on a host without them, a conda-forge `ffmpeg` on `PATH` and `LD_LIBRARY_PATH` is enough.
+
 ```bash
 ENV=CabinetPouringOpenCabinet-Sharpa-v1
 STEM=$(python -c "from utils.dex_tasks import resolve_dex_task as r; print(r('$ENV').short_name)")
 DS=$DEX_OUT/datasets/${STEM}_rig_vla
 
 python utils/groot_utils/replay_to_vla_dataset.py \
-  --src data/${ENV} --dst "$DS" --env_id $ENV --control_mode pd_joint_pos \
+  --src data/sharpa/${ENV} --dst "$DS" --env_id $ENV --control_mode pd_joint_pos \
   --proprio controller_qpos --camera_size 256 --camera_profile robodex_fixed --verify_frames 6 \
   --gpu_id 0 --overwrite
 ```

@@ -36,9 +36,9 @@ from tasks.robots.hand_controller_gains import (
 def _resolve_xhand_urdf(base: Path) -> str:
     """The committed composite URDF, unless XHAND_MOUNT_RPY="r p y" (radians) is
     set — then write a sibling URDF with that mount orientation and use it. Lets us
-    dial the palm-facing direction live from the teleop launch, e.g.
-        XHAND_MOUNT_RPY="0 0 -1.57" python -m data_gen.teleop.manus_teleop --hand-model xhand
-    without editing files; bake the chosen value as the default mount rpy once found.
+    dial the palm-facing direction without editing files, e.g.
+        XHAND_MOUNT_RPY="0 0 -1.57" exported before the robot is built;
+    bake the chosen value as the default mount rpy once found.
     Rewrites only the FIXED panda_to_xhand_joint (zero added DOF). The sibling lives
     in the same dir so the relative ../xhand_hand_meshes paths still resolve."""
     rpy = os.environ.get("XHAND_MOUNT_RPY")

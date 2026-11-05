@@ -191,7 +191,7 @@ if _ENV:
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description="GR00T modality configs keyed by env id.")
-    ap.add_argument("--env-id", required=True, help="env id key (e.g. BottleCapUnscrewing-gripper-demo)")
+    ap.add_argument("--env-id", required=True, help="env id key (e.g. CabinetPouringOpenCabinet-Sharpa-v1)")
     ap.add_argument("--write-json", metavar="DATASET_PATH", default=None,
                     help="write meta/modality.json into this dataset for --env")
     a = ap.parse_args()

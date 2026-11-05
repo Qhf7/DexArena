@@ -811,9 +811,7 @@ def _print_training_commands(meta: dict, dataset_root: Path) -> None:
         flush=True,
     )
     print(
-        "  # Diffusion policy:\n"
-        f"  python -m train.train_diffusion --env-id {env_id} "
-        f"--control-mode {control_mode} --demo-data-path {dataset_root}",
+        "  # Other baselines: train/TRAIN_EVAL.md",
         flush=True,
     )
 

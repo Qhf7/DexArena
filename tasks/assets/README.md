@@ -86,18 +86,14 @@ the full-size trolley.
 
 ### CabinetPour task-object collision assets
 
-`tasks/assets/task_object_meshes/` is gitignored and must be distributed
-separately. CabinetPour bottle 4403 now requires
-`cabinet_pour/bottle_4403/body_col_profiled/*.obj` in addition to its visual,
-lid and metadata files. Regenerate that directory with:
-
-```bash
-python scripts/generate_cabinet_pour_bottle_collision.py
-```
-
-The generator is tracked; its generated OBJ files are not. Do not fall back to
-`body_col_proc`: that legacy radial envelope creates up to 4.85 mm of invisible
-outer collision and overlapping contact cells.
+`tasks/assets/task_object_meshes/` is gitignored and is distributed with the
+dataset repository. CabinetPour bottle 4403 loads
+`cabinet_pour/bottle_4403/body_col_profiled/*.obj` (the particle-container
+shell) and `body_col_hand/*.obj` (the solids the hand touches) in addition to
+its visual, lid and metadata files. Both directories ship with the assets; they
+were generated once from the visual mesh by a tool that is not part of this
+repository. Do not fall back to `body_col_proc`: that legacy radial envelope
+creates up to 4.85 mm of invisible outer collision and overlapping contact cells.
 
 ### Dual-arm
 
@@ -129,7 +125,7 @@ The hand root link varies per hand:
 | Wuji    | `hand_docking_link` → `right_palm_link` | yes (adapter from `docking/` upstream subdir) |
 
 When integrating a new hand, **always include any wrist/adapter geometry the
-manufacturer ships** — see `docs/howto_add_new_hand.md` for the reasoning.
+manufacturer ships**.
 
 ### Kinematic chain — dual arm
 
@@ -178,12 +174,6 @@ Never use `package://` paths — those require a ROS catkin environment that we
 don't run.
 
 ## Adding a new hand
-
-See [`docs/howto_add_new_hand.md`](../../docs/howto_add_new_hand.md) for the
-end-to-end workflow: cloning the upstream repo, choosing the right URDF
-variant, rewriting mesh paths, building the combined URDF, and validating.
-
-Short version:
 
 1. Clone the upstream repo into a scratch dir.
 2. Copy meshes into `tasks/assets/<hand>_hand_meshes/`.

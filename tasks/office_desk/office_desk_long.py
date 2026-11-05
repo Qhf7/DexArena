@@ -265,7 +265,7 @@ def _boolean(x) -> bool:
 # non-identity quaternion, so they get POSITION-only randomization here.
 LONG_LAPTOP_RANDOM = (0.020, 0.020, 0.0)
 # Keyboard x is capped at 10 mm here: in the long task the ENTER key sits 0.557 m from
-# the nearest arm root against the 0.54 m reach floor (tests/test_workspace_rig.py),
+# the nearest arm root against the 0.54 m reach floor,
 # and every mm of keyboard x moves the key by a mm; 20 mm broke it.
 LONG_KEYBOARD_RANDOM = (0.010, 0.020, 0.0)
 LONG_MOUSE_RANDOM = (0.020, 0.020, 0.0)

@@ -53,7 +53,8 @@ USAGE
     python -m data_gen.replay.check_label_parity <lerobot_dataset_root> --episodes 3
     python -m data_gen.replay.check_label_parity <root> --stride 5    # sample frames
 Run from the repository root, in the ManiSkill conda env. For the office and
-table_clean families, prefix the LD_PRELOAD line from scripts/run_pytest.sh.
+table_clean families, preload the libgomp shipped in the coacd wheel
+(LD_PRELOAD=<site-packages>/coacd.libs/libgomp-*.so).
 """
 from __future__ import annotations
 

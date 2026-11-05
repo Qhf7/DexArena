@@ -321,8 +321,6 @@ def make_env(args, capture_video: bool):
         env_kwargs["control_mode"] = args.control_mode
     if args.robot_uids is not None:
         env_kwargs["robot_uids"] = args.robot_uids
-    if args.obj_id is not None:
-        env_kwargs["obj_id"] = args.obj_id
     if args.eval_sensor_size is not None:
         env_kwargs["sensor_configs"] = {
             "width": int(args.eval_sensor_size),

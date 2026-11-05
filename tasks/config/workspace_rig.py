@@ -55,8 +55,8 @@ TABLE_DEPTH_X = 1.210
 # The relative invariant above (arm root 1.050 m behind the table centre) makes
 # every task FEEL the same, but it does not pin the rig in world coordinates,
 # and two things outside the task layer are expressed in world coordinates:
-# the VR play-space origin (``vr_native.mirror --root-pose``, default
-# [-0.4, 0, -0.5]) and every task's camera ``look_at`` literals. With juice /
+# the play-space origin of the recording setup (default [-0.4, 0, -0.5]) and
+# every task's camera ``look_at`` literals. With juice /
 # office / table_clean anchored on the stock table centre (-0.120) and
 # CabinetPour / Screwing / DrawerPlug / MealPreparation / PackageOpening on the
 # shifted one (+0.180), the operator's body stood 0.30 m differently against

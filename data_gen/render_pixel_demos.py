@@ -435,9 +435,7 @@ def main(argv: list[str] | None = None) -> int:
         f"[render] wrote {written} episodes ({successes} successful) to {cli.out} "
         f"as episodes {first_episode}..{writer.num_episodes - 1}; file now holds "
         f"{writer.num_episodes}\n"
-        f"[render] camera_config_hash={config.config_hash()}\n"
-        f"[render] gate it: python -m data_gen.verify_pixel_consistency "
-        f"--env-id {cli.env_id} --dataset {cli.out}"
+        f"[render] camera_config_hash={config.config_hash()}"
     )
     return 0
 

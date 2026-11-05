@@ -89,7 +89,7 @@ class PandaDualWujiHand(PandaAgent):
 
     # Arm gains follow ManiSkill upstream `panda` agent. Hand gains are
     # per-joint, sourced from `tasks.robots.hand_controller_gains`
-    # (see docs/hand_controller_parameters.md).
+    # (each gain's source is stated in that module).
     arm_stiffness = 1e3
     arm_damping = 1e2
     arm_force_limit = 100

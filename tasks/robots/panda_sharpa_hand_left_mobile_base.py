@@ -163,8 +163,8 @@ class PandaSharpaHandLeftAngledMobileBase(PandaSharpaHandLeftMobileBase):
 
     Composition of the two variants: the trolley + upright arm come from the
     mobile-base composite URDF, and the flange->hand mount is replaced by the same
-    two-segment elbow bracket the right angled agents use (see
-    docs/angled_mount_design.md). "Fingers forward, palm down" is the wrist ZERO pose
+    two-segment elbow bracket the right angled agents use. "Fingers forward,
+    palm down" is the wrist ZERO pose
     here too. Mirror of PandaSharpaHandRightAngledMobileBase; the bracket is one
     symmetric part, so only the mount's child link differs.
     """

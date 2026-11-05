@@ -1,4 +1,4 @@
-"""Stage 3 of ``DualMealPreparation-v1``: scoop the tomato with the spoon onto the plate.
+"""Stage 3 of ``MealPreparationLong-<Hand>-v1``: scoop the tomato with the spoon onto the plate.
 
 The scene starts from the accepted output of Stage 2: the box lid is open and
 the bread is already on the plate; the tomato sits against the right wall of

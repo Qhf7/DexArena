@@ -1495,7 +1495,7 @@ class CabinetPouringLongEnv(BaseEnv):
         # purposes: mu = 0 explicitly (was the silent 0.3 fallback). Under the
         # measured `average` combine rule this yields particle-particle mu = 0
         # and particle-container mu = mu_container / 2 — the slipperiest contact
-        # the engine can express (see docs/friction_calibration.md).
+        # the engine can express.
         water_mat = sapien.physx.PhysxMaterial(0.0, 0.0, 0.0)
         for particle in self.particles:
             for obj in particle._objs:

@@ -106,7 +106,7 @@ class Args:
     # "ball_grasp_p0" is the pose pair the P0 gate was run against: the ball is
     # ~20 px in the third-person view and stays readable through the grasp, and
     # the wrist camera looks along the approach axis instead of across the hand.
-    # "task_default" reproduces tasks/ball_grasping.py exactly and fails that gate
+    # "task_default" reproduces the task's own cameras exactly and fails that gate
     # (see utils/pixel_cameras.py). Changing the preset changes the
     # camera_config_hash, i.e. it defines a different visual domain -- the demo
     # HDF5 has to be re-rendered, and the loader refuses a mismatched one.

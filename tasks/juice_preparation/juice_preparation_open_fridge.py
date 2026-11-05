@@ -4,7 +4,7 @@ mount used by the composed dual-arm task.
 
 Environment
 -----------
-{Gripper,Sharpa,Wuji}OpenFridge-v1
+JuicePreparationOpenFridge-<Hand>-v1 (Hand = Sharpa, Wuji, XHand, Gripper)
 
 Scene
 -----

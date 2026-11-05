@@ -3,9 +3,7 @@ Final Blender023 lid-placement task for demo collection, RL, and IL.
 
 Registered environments
 -----------------------
-PandaGripperPlaceBlenderLid-v1
-SharpaPlaceBlenderLid-v1
-WujiPlaceBlenderLid-v1
+JuicePreparationPlaceLid-<Hand>-v1 (Hand = Sharpa, Wuji, XHand, Gripper)
 
 Initial condition
 -----------------

@@ -363,7 +363,7 @@ frame from the environment states stored in the LeRobot dataset:
 
 ```bash
 python -m data_gen.render_pixel_demos \
-  --demo-path data/JuicePreparationOpenFridge-Sharpa-v1 \
+  --demo-path data/sharpa/JuicePreparationOpenFridge-Sharpa-v1 \
   --env-id JuicePreparationOpenFridge-Sharpa-v1 \
   --robot-uids panda_sharpa_hand_left_angled_mobile_base \
   --control-mode pd_joint_pos --sim-backend physx_cuda \
@@ -499,7 +499,7 @@ python train/train_ppo_pixels.py \
   --bc-batch-size 256 --bc-loss-type mse --bc-val-fraction 0.1 \
   --bc-warmup-steps 20000 --bc-warmup-batch-size 256 \
   --use-demo-init-states \
-  --demo-init-data-path data/CabinetPouringOpenCabinet-Sharpa-v1 \
+  --demo-init-data-path data/sharpa/CabinetPouringOpenCabinet-Sharpa-v1 \
   --demo-init-prob 1.0 --demo-init-min-prob 0.1 --demo-init-decay-steps 0.7 \
   --demo-init-curriculum progress \
   --demo-init-curriculum-start-frac 0.2 --demo-init-curriculum-steps 0.5 \
@@ -523,7 +523,9 @@ environment, camera and encoder flags as training (the checkpoint carries the
 `best_ckpt.pt`, `ckpt_<env_step>.pt` and `final_ckpt.pt`; PPO writes
 `ckpt_best.pt`, `ckpt_<step>.pt` and `final_ckpt.pt`. The reported number is
 `eval_success_once_mean`: an episode counts as a success if the task ever
-reported success during it.
+reported success during it. PPO's argument check still expects the inputs of a
+training run: when evaluating, pass `--bc-warmup-steps 0 --no-use-demo-init-states`
+together with `--bc-data-path` (the action scale is read from the demos).
 
 ```bash
 # RLPD: 50 episodes, one env, no partial reset

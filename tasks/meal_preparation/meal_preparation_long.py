@@ -7,7 +7,7 @@ The full task is a dual-arm sequence with three latched stages:
   on the plate.
   Stage 3 -- the right arm SCOOPS the TOMATO out of the box with the serving
   spoon and puts it on the plate (the spoon stage is back, merged
-  from the user-tested probe tasks/_probe_meal_pizza.py).
+  from a user-tested probe task).
 
 Stage 3 was a hand pick-and-place for a while because the
 296 mm spoon of the first version could not be held against the scoop torque
@@ -319,7 +319,7 @@ MEAL_PREP_LAYOUT_X_SHIFT = -0.12 + WORK_TABLE_X_OFFSET
 MEAL_PREP_BOX_PULL_X = -0.15          # box + tomato toward the arms (scoop reach); -0.16 put the near wall 5 mm inside the 0.54 m band
 MEAL_PREP_TABLE_PULL_X = -0.08        # plate + bread toward the arms
 BALL_IN_BOX_OFFSET = (0.068, -0.090)  # tomato against the box's right (-y) wall, forward half
-SPOON_SPAWN_X = -0.268                # + MEAL_PREP_LAYOUT_X_SHIFT: grip capsule >= 0.54 m from the right arm root after settling (reach band floor; tests/test_workspace_rig.py measures the settled hulls)
+SPOON_SPAWN_X = -0.268                # + MEAL_PREP_LAYOUT_X_SHIFT: grip capsule >= 0.54 m from the right arm root after settling (reach band floor, measured on the settled hulls)
 SPOON_SPAWN_Y = -0.26                 # between the bread lane (-0.12) and the plate (-0.55)
 
 PLATE_RADIUS = 0.154
@@ -329,7 +329,7 @@ PLATE_RADIUS = 0.154
 # local -y. It lies ALONG X with the handle toward the arm (asset refquat yawed
 # -90 deg): the one layout in which a 0.49 m spoon clears the box, the plate and
 # the tomato and keeps its grip inside the reach band. The operator confirmed
-# "handle toward me" is the easy grip (docs/meal_prep_spoon_probe_notes_zh.md 3.1d).
+# "handle toward me" is the easy grip.
 SPOON_SPAWN_QUAT = [-0.5, 0.5, 0.5, -0.5]
 SPOON_BOWL_LOCAL_NORMAL = [0.0, -1.0, 0.0]
 # Shortened along its LENGTH axis only (asset local z) to a 441 mm serving spoon:

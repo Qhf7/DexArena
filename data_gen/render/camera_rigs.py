@@ -22,7 +22,7 @@ WHY ITS OWN MODULE
     Nothing under tasks/ imports this file, so it is in no environment's code-fingerprint
     closure: `blast_radius` is 0 and the 40 fingerprints do not move when a camera moves
     (measured). The frozen
-    utils/marvin_wrist_camera_config.py is READ (through utils.camera_configs), never edited.
+    utils/camera_configs.py is READ, never edited.
 
 WHAT IT IS NOT
     Not the cameras the environments were recorded with: those differ per family (and
@@ -149,7 +149,7 @@ def rig_camera_names(env_unwrapped) -> list[str]:
 def install_rig(env_cls, family: str) -> None:
     """Make ``env_cls`` render the family rig as its human render cameras.
 
-    Same lever as data_gen/recordings/camera.py:install_multiview_render_cameras: a class
+    Same lever as the camera installer used at record time: a class
     property, in this process only; the task module on disk is untouched.
     """
     env_cls._default_human_render_camera_configs = property(lambda self: rig_cameras(self, family))

@@ -1,13 +1,12 @@
 """Trapezoid base + 2 Panda arms + 2 RobotEra XHand1 hands.
 
-The rig (base pose, arm mounts, arm gains, reset pose) is IDENTICAL to
-``panda_dual_wuji_hand_trapezoid_base`` — the URDF is generated from it by
-``scripts/build_dual_xhand_trapezoid_urdf.py``, which swaps only the hands, so
+The rig (base pose, arm mounts, arm gains, reset pose) is IDENTICAL to the dual
+Wuji table rig the URDF was generated from (by a build script that is not part of
+this repository; only the hands are swapped), so
 the operator stands against the same frozen operating station on every dual rig.
 
-RobotEra ships right-hand assets only; the LEFT hand is the mirrored asset from
-``data_gen/teleop/make_mirrored_hand.py`` (chirality pinned by
-``tests/test_hand_retargeting_chirality.py``). Both hands keep the right hand's
+RobotEra ships right-hand assets only; the LEFT hand is a mirrored copy of the right
+hand (y -> -y in the hand root frame). Both hands keep the right hand's
 joint sign convention, so one qpos vector means the same finger curl on both
 sides and ``hand_controller_gains`` tables apply unchanged via ``_strip_side``.
 """

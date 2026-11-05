@@ -1,4 +1,4 @@
-"""Stage 1 of ``DualMealPreparation-v1``: open or close the hinged box.
+"""Stage 1 of ``MealPreparationLong-<Hand>-v1``: open or close the hinged box.
 
 This standalone stage contains the box and the common tabletop scene.  For
 ``task_mode="open"`` the lid starts closed and the policy must open it past

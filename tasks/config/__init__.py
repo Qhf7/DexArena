@@ -2,8 +2,6 @@
 
 - ``sim_profiles``: environment-layer SimConfig (solver / offsets / flags).
 - ``object_materials``: task-object contact friction (physical pair-mu table).
-
-Decision record: docs/sim_param_layers.md, docs/friction_calibration.md.
 """
 
 from tasks.config.sim_profiles import make_sim_config  # noqa: F401

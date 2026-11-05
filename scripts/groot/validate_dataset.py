@@ -8,8 +8,8 @@ correctly before fine-tuning.
 
 Usage:
   python scripts/groot/validate_dataset.py \
-    --dataset-path data_train/bottlecap_gripper_vla \
-    --env-id BottleCapUnscrewing-gripper-demo
+    --dataset-path $DEX_OUT/datasets/cabinet_pouring_open_cabinet_rig_vla \
+    --env-id CabinetPouringOpenCabinet-Sharpa-v1
 """
 import argparse
 import json

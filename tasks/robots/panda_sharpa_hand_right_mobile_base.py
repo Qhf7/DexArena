@@ -56,7 +56,7 @@ class PandaSharpaHandRightAngledMobileBase(PandaSharpaHandRightAngled):
     Composition of the two variants: the trolley + upright arm come from the
     mobile-base composite URDF, and the flange->hand mount is replaced by the
     same two-segment elbow bracket the table-mounted angled agent uses (see
-    PandaSharpaHandRightAngled / docs/angled_mount_design.md). "Fingers
+    PandaSharpaHandRightAngled). "Fingers
     forward, palm down" is the wrist ZERO pose here too — teleop wrist
     ergonomics match the angled table agent, not the straight mobile mount.
     Inherits the angled agent's honest self-collision config (no wrist<->link7

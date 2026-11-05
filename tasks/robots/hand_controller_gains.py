@@ -11,8 +11,8 @@
 # ============================================================================
 """Per-joint PD gain tables for Shadow / Sharpa / Wuji hands.
 
-See ``docs/hand_controller_parameters.md`` for the upstream sources and the
-derivation of each number. Keep this file in sync with that doc.
+The source of every number (vendor data or measured URDF geometry) is stated
+next to it.
 """
 
 import math
@@ -37,8 +37,8 @@ def gains_to_list(joint_names, gain_dict):
 # Source: IsaacGymEnvs / IsaacLab Shadow Hand cfg (which inherit OpenAI's MJCF):
 #   kp = 1.0 for finger joints, kp = 5.0 for the two wrist joints,
 #   damping = 0.1 uniform.
-# force_limit comes from the per-joint ``<limit effort=...>`` in our URDF
-# ``tasks/assets/urdf/panda_shadow_hand_right.urdf``.
+# force_limit comes from the per-joint ``<limit effort=...>`` of the Shadow hand URDF
+# (the Shadow hand is no longer part of the repository; its table is kept for reference).
 
 _SHADOW_FINGER_JOINTS = (
     [f"FFJ{i}" for i in range(1, 5)]
@@ -176,7 +176,7 @@ SHARPA_HAND_FORCE_LIMIT = {
 #
 # So: pads go on the links that carry load, the marker frames keep their pose
 # role and lose their collision, and every remaining hand link is stated.
-PAD_MU = 1.2                      # silicone pad, docs/friction_calibration.md S2
+PAD_MU = 1.2                      # silicone pad, from the friction calibration
 PAD_PATCH_RADIUS = 0.005          # contact patch pressed, m (torsional lever)
 PAD_MIN_PATCH_RADIUS = 0.002      # contact patch on light touch, m
 
@@ -393,9 +393,8 @@ WUJI_HAND_ARMATURE = {
     for i in range(1, 6) for k in range(1, 5)
 }
 
-# Geometry measured from tasks/assets/urdf/panda_wuji_hand_right_handonly.urdf at
-# the zero pose by scripts/measure_hand_joint_geometry.py (re-checked against the
-# URDF by tests/test_hand_gain_derivation.py).
+# Geometry measured from the Wuji hand URDF at the zero pose (fingertip moment arm
+# about each joint axis).
 _WUJI_LEVER = {        # joint axis -> fingertip moment arm [m]
     "finger1_joint1": 0.104513,
     "finger2_joint1": 0.101978,
@@ -478,7 +477,7 @@ SHARPA_HAND_ARMATURE = _SHARPA_ARMATURE
 # are the *unprefixed* joint names (post ``_strip_side``): the composite URDF
 # names them ``right_hand_<...>``, so ``_strip_side`` yields ``hand_<...>``.
 #
-# PROVENANCE (see memory xhand1-replaces-shadow + docs/hand_controller_parameters):
+# PROVENANCE:
 #   force_limit : VENDOR-GRADE. Official RobotEra URDF v1.3 ``<limit effort>``,
 #     two actuator classes only — strong 1.1 N*m, weak 0.4 N*m. Cross-confirmed
 #     by 3 independent ports (tsingqingyun MJCF, RoboVerse Isaac cfg, Genesis)
@@ -517,9 +516,8 @@ _XHAND_VENDOR_FORCE_LIMIT = {**{j: 1.1 for j in _XHAND_STRONG}, **{j: 0.4 for j 
 _XHAND_CONVERSION_ARMATURE = {j: 2e-4 for j in _XHAND_JOINTS}      # replaced, kept for A/B
 _XHAND_CONVERSION_FRICTIONLOSS = {j: 2e-3 for j in _XHAND_JOINTS}  # replaced, kept for A/B
 
-# Geometry measured from tasks/assets/urdf/panda_xhand_hand_right_handonly.urdf at
-# the zero pose by scripts/measure_hand_joint_geometry.py (re-checked against the
-# URDF by tests/test_hand_gain_derivation.py).
+# Geometry measured from the XHand URDF at the zero pose (fingertip moment arm
+# about each joint axis).
 _XHAND_LEVER = {        # joint axis -> fingertip moment arm [m]
     "hand_thumb_bend_joint": 0.134803,
     "hand_index_bend_joint": 0.1161,

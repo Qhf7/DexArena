@@ -24,8 +24,14 @@ from mani_skill.utils.wrappers.flatten import FlattenActionSpaceWrapper
 from mani_skill.utils.wrappers.record import RecordEpisode
 from mani_skill.vector.wrappers.gymnasium import ManiSkillVectorEnv
 
-from utils.maniskill_patches import patch_maniskill_gpu_ik
-patch_maniskill_gpu_ik()
+try:
+    # Optional GPU-IK patch, not shipped with the repository; only IK-based control modes
+    # on the GPU simulation backend need it.
+    from utils.maniskill_patches import patch_maniskill_gpu_ik
+
+    patch_maniskill_gpu_ik()
+except ModuleNotFoundError:
+    pass
 
 from algo.ppo import PPOAgent
 import tasks  # noqa: F401
@@ -147,8 +153,6 @@ if __name__ == "__main__":
         env_kwargs["control_mode"] = args.control_mode
     if args.reward_mode is not None:
         env_kwargs["reward_mode"] = args.reward_mode
-    if args.obj_id is not None and 'specific' in args.env_id.lower():
-        env_kwargs["obj_id"] = args.obj_id
     assert args.num_steps == args.num_eval_steps
     env_kwargs["max_episode_steps"] = args.num_steps
     envs = gym.make(

@@ -30,8 +30,8 @@ What differs from `train_ppo.py` (state PPO), beyond the observation:
 * **The rollout keeps images as uint8** on the training device:
   `num_envs * num_steps * 2 * 128 * 128 * 3` bytes (64 x 200 -> 2.4 GiB).
 
-Example (the tuned door-open configuration is in
-`scripts/ppo/cabinet_pour_door_open_pixels.sh`)::
+Example (the tuned door-open configuration is the PPO-from-pixels command in
+`train/TRAIN_EVAL.md`)::
 
     python train/train_ppo_pixels.py \\
         --env-id CabinetPouringOpenCabinet-Sharpa-v1 --camera-preset cabinet_fixed \\

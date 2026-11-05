@@ -5,7 +5,7 @@ Mesh files for the Wuji dexterous hand, sourced from
 
 Both **left** and **right** hands are integrated. Used by:
 - `tasks/assets/urdf/panda_wuji_hand_right.urdf` (single arm, right hand)
-- `tasks/assets/urdf/panda_dual_wuji_hand_trapezoid_base.urdf` (dual arm)
+- `tasks/assets/urdf/panda_dual_wuji_hand_mobile_base.urdf` (dual arm)
 
 ## Contents
 
@@ -67,8 +67,6 @@ both pointing to the same `hand_docking_link.STL` file.
 URDF mesh paths were rewritten from the upstream `../meshes/right/...` /
 `../meshes/...` conventions to `../wuji_hand_meshes/...` so everything resolves
 relative to `tasks/assets/urdf/`.
-
-See `docs/howto_add_new_hand.md` for the full integration procedure.
 
 ## Upstream license
 

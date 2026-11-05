@@ -110,8 +110,6 @@ def make_eval_env(args, *, num_envs, reconfiguration_freq, record_dir=None, max_
         env_kwargs["reward_mode"] = args.reward_mode
     if args.robot_uids is not None:
         env_kwargs["robot_uids"] = args.robot_uids
-    if args.obj_id is not None and "specific" in args.env_id.lower():
-        env_kwargs["obj_id"] = args.obj_id
     # The policy only ever saw the scene as the dataset builder rendered it, so any
     # env option used at build time has to be repeated here. Missing them silently
     # changes the observation distribution: with the goal marker left hidden, a

@@ -446,7 +446,7 @@ def main():
     summary = recorder.finalize()
     env.close()
     # Record how the views were produced next to the dataset (survives shard aggregation only
-    # if copied; scripts/dex/render_task.sh writes the aggregated manifest).
+    # if copied).
     render_manifest = {
         "env_id": args.env_id, "control_mode": args.control_mode, "restore": args.restore,
         "proprio": args.proprio, "camera_size": args.camera_size,

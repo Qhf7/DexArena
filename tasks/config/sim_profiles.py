@@ -15,9 +15,9 @@ Every in-house task env returns ``make_sim_config(...)`` from its
 ``_default_sim_config`` instead of hand-writing a SimConfig. The point is to make
 it impossible for the collection side and the training side to drift apart: a
 demo recorded under one set of solver/contact settings is only valid if training
-replays it under the same ones (see docs/demo_usability_factors.md, risk 3).
+replays it under the same ones.
 
-Locked decisions (rationale in docs/sim_param_layers.md, section 1):
+Locked decisions:
 
 - solver 24/8, ONE tier for every task. Sub-task policies have to compose into
   long-horizon tasks, so collection, sub-task training and long-horizon training

@@ -3,11 +3,10 @@
 Arm + right XHand1, mounted on the dual robot's full-size trolley at
 ``xyz="0 -0.22 0"`` -- right of the trolley centre, where the dual robot's right arm
 sits. At a given root pose this arm is kinematically identical, joint for joint, to
-``panda_dual_xhand_hand_mobile_base``'s right arm (pinned by
-``tests/test_xhand_mobile_base_rig.py``). The ``*_left_mobile_base`` agent is the same
+``panda_dual_xhand_hand_mobile_base``'s right arm. The ``*_left_mobile_base`` agent is the same
 robot with the mirrored left hand at ``0 0.22 0``.
 
-The URDF is a GENERATED asset (``scripts/build_xhand_mobile_base_urdfs.py``): the
+The URDF is a generated asset (the build script is not part of this repository): the
 trolley + arm rig is copied verbatim from the frozen dual-wuji mobile URDF and only the
 hand is swapped, so this rig is the same operating station every other family stands
 against (four-layer contract, L3).

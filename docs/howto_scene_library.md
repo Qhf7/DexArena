@@ -40,7 +40,7 @@ so the same task code runs unchanged on the bare table.
 
 ## Wiring a task
 
-`tasks/grasping.py` is the reference. Four things change:
+The pattern, in a task's `_load_scene`. Four things change:
 
 ```python
 def _load_scene(self, options):

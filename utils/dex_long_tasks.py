@@ -9,8 +9,7 @@ WHY THIS FILE
 
 WHERE THE CONTENT COMES FROM
     The stage order and the gate names were read out of the long task modules themselves and
-    confirmed against a live probe of all ten environments (scripts/dex/ops/probe_long_tasks.py,
-    2026-09-21): five tasks expose an integer `stage`, the rest latch booleans named `stage_*`.
+    confirmed against a live probe of all ten environments: five tasks expose an integer `stage`, the rest latch booleans named `stage_*`.
     Screwing's order is bolt -> nut -> turn (the reset order of its latches), not the order the
     subtasks happen to be listed in.
 """

@@ -53,4 +53,4 @@ HF_ENDPOINT="${HF_ENDPOINT:-https://hf-mirror.com}" \
   "$VENV_PY" -c "import gr00t, mani_skill, lerobot, torch; print('unified env ok | gr00t + mani_skill', mani_skill.__version__, '| torch', torch.__version__, '| cuda', torch.cuda.is_available())"
 
 echo "[setup] DONE. Unified env: $GR00T_DIR/.venv"
-echo "[setup]   export GROOT_PYTHON=$VENV_PY   # used by scripts/groot/{finetune,eval}.sh"
+echo "[setup]   export GROOT_PYTHON=$VENV_PY   # the interpreter for the commands in docs/GROOT_DEXARENA.md"
