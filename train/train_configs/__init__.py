@@ -1,55 +1,47 @@
-from .awr_config import Args as AWRArgs
-from .awr_config import parse_args as parse_awr_args
-from .bc_config import Args as BCArgs
-from .bc_config import parse_args as parse_bc_args
-from .cql_config import Args as CQLArgs
-from .cql_config import parse_args as parse_cql_args
-from .ACT_config import Args as ACTArgs
-from .ACT_config import parse_args as parse_act_args
-from .DP_config import Args as DPArgs
-from .DP_config import parse_args as parse_dp_args
-from .fqe_config import Args as FQEArgs
-from .fqe_config import parse_args as parse_fqe_args
-from .iql_config import Args as IQLArgs
-from .iql_config import parse_args as parse_iql_args
-from .iql_online_config import Args as IQLOnlineArgs
-from .iql_online_config import parse_args as parse_iql_online_args
-from .opt_config import Args as OPTArgs
-from .opt_config import parse_args as parse_opt_args
-from .ppo_config import Args as PPOArgs
-from .ppo_config import parse_args as parse_ppo_args
-from .rlpd_config import Args as RLPDArgs
-from .rlpd_config import parse_args as parse_rlpd_args
-from .sac_config import Args as SACArgs
-from .sac_config import parse_args as parse_sac_args
-from .td3bc_config import Args as TD3BCArgs
-from .td3bc_config import parse_args as parse_td3bc_args
+"""Training configurations, one module per trainer.
 
-__all__ = [
-    "AWRArgs",
-    "BCArgs",
-    "CQLArgs",
-    "ACTArgs",
-    "DPArgs",
-    "FQEArgs",
-    "IQLArgs",
-    "IQLOnlineArgs",
-    "OPTArgs",
-    "PPOArgs",
-    "RLPDArgs",
-    "SACArgs",
-    "TD3BCArgs",
-    "parse_awr_args",
-    "parse_bc_args",
-    "parse_cql_args",
-    "parse_act_args",
-    "parse_dp_args",
-    "parse_fqe_args",
-    "parse_iql_args",
-    "parse_iql_online_args",
-    "parse_opt_args",
-    "parse_ppo_args",
-    "parse_rlpd_args",
-    "parse_sac_args",
-    "parse_td3bc_args",
-]
+The package-level names below are resolved on first use, so importing one
+config module (for example ``train.train_configs.pi05_config`` from the PI0.5
+policy worker, which runs in an interpreter without the simulator) does not
+import every trainer's dependencies.
+"""
+import importlib
+
+_EXPORTS = {
+    "AWRArgs": ("awr_config", "Args"),
+    "parse_awr_args": ("awr_config", "parse_args"),
+    "BCArgs": ("bc_config", "Args"),
+    "parse_bc_args": ("bc_config", "parse_args"),
+    "CQLArgs": ("cql_config", "Args"),
+    "parse_cql_args": ("cql_config", "parse_args"),
+    "ACTArgs": ("ACT_config", "Args"),
+    "parse_act_args": ("ACT_config", "parse_args"),
+    "DPArgs": ("DP_config", "Args"),
+    "parse_dp_args": ("DP_config", "parse_args"),
+    "FQEArgs": ("fqe_config", "Args"),
+    "parse_fqe_args": ("fqe_config", "parse_args"),
+    "IQLArgs": ("iql_config", "Args"),
+    "parse_iql_args": ("iql_config", "parse_args"),
+    "IQLOnlineArgs": ("iql_online_config", "Args"),
+    "parse_iql_online_args": ("iql_online_config", "parse_args"),
+    "OPTArgs": ("opt_config", "Args"),
+    "parse_opt_args": ("opt_config", "parse_args"),
+    "PPOArgs": ("ppo_config", "Args"),
+    "parse_ppo_args": ("ppo_config", "parse_args"),
+    "RLPDArgs": ("rlpd_config", "Args"),
+    "parse_rlpd_args": ("rlpd_config", "parse_args"),
+    "SACArgs": ("sac_config", "Args"),
+    "parse_sac_args": ("sac_config", "parse_args"),
+    "TD3BCArgs": ("td3bc_config", "Args"),
+    "parse_td3bc_args": ("td3bc_config", "parse_args"),
+}
+
+__all__ = list(_EXPORTS)
+
+
+def __getattr__(name):
+    try:
+        module, attribute = _EXPORTS[name]
+    except KeyError:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}") from None
+    return getattr(importlib.import_module(f"{__name__}.{module}"), attribute)

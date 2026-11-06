@@ -388,25 +388,35 @@ class PipeInference:
 
 def worker_main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--run", required=True)
+    parser.add_argument("--run", required=True, help="a training run, or a published package")
+    parser.add_argument("--base", default=None, help="Base checkpoint directory (packages only)")
+    parser.add_argument("--env-id", default=None, help="registered environment the package is evaluated in")
     args = parser.parse_args()
     os.environ.setdefault("NUMPY_MADVISE_HUGEPAGE", "0")
     wire = sys.stdout.buffer
     sys.stdout = sys.stderr
     try:
-        from utils.pi05_utils.checkpoint import read_run
+        from utils.pi05_utils.checkpoint import is_compact_package, read_run
         from utils.pi05_utils.data import camera_mapping
 
-        identity, prepared, _ = read_run(args.run)
         import jax
 
-        from algo.pi05 import NativeJointInference, load_final_model
+        from algo.pi05 import NativeJointInference, load_compact_model, load_final_model
         from utils.pi05_utils.data import evaluation_prompt
 
         devices = jax.devices("gpu")
         if len(devices) != 1:
             raise ValueError("Exactly one allocated visible model GPU is required")
-        model, certificate = load_final_model(args.run, identity, prepared, device=devices[0])
+        if is_compact_package(args.run):
+            if not args.base:
+                raise ValueError("--base is required for a published package")
+            model, prepared, certificate = load_compact_model(args.run, args.base, device=devices[0])
+            prepared = dict(prepared)
+            if args.env_id:
+                prepared["env_id"] = args.env_id
+        else:
+            identity, prepared, _ = read_run(args.run)
+            model, certificate = load_final_model(args.run, identity, prepared, device=devices[0])
         infer = NativeJointInference(
             model,
             prepared,

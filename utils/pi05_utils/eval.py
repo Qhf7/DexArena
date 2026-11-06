@@ -254,6 +254,12 @@ def run_episode(
     return result
 
 
+VERIFIED_MODEL_STATUSES = (
+    "FINAL_FULL_RESTORE_AND_MODEL_BINDING_VERIFIED",
+    "COMPACT_BASE_OVERLAY_AND_MODEL_BINDING_VERIFIED",
+)
+
+
 def evaluate50(
     *,
     env,
@@ -270,7 +276,7 @@ def evaluate50(
     if max_infra_attempts not in (1, 2):
         raise ValueError("Bounded infrastructure retry required")
     if (
-        final_certificate.get("status") != "FINAL_FULL_RESTORE_AND_MODEL_BINDING_VERIFIED"
+        final_certificate.get("status") not in VERIFIED_MODEL_STATUSES
         or final_certificate.get("optimizer_updates") != (60000 if adapter.n == 58 else 30000)
         or journal.identity.get("checkpoint_identity_sha256")
         != final_certificate["identity_sha256"]
@@ -396,12 +402,29 @@ def evaluate(args):
     from filelock import FileLock
 
     REPO_ROOT = Path(__file__).resolve().parents[2]
-    trained, prepared, binding = read_run(args.model_path)
-    if args.env_id and args.env_id != prepared["env_id"]:
-        raise ValueError("--env-id differs from the trained policy")
-    from utils.pi05_utils.checkpoint import inspect_final
+    from utils.pi05_utils.checkpoint import inspect_final, is_compact_package, read_package
 
-    final = inspect_final(args.model_path, trained, prepared)
+    if is_compact_package(args.model_path):
+        # A published inference-only package: the policy worker overlays its
+        # trainable arrays on the pinned Base checkpoint.
+        if args.binding is None or args.base_model_path is None:
+            raise ValueError("Evaluating a published package needs --binding and --base-model-path")
+        trained, prepared, binding = read_package(args.model_path, args.binding, env_id=args.env_id)
+        final = dict(identity_sha256=trained["identity_sha256"])
+        worker_args = [
+            "--run",
+            str(args.model_path.resolve()),
+            "--base",
+            str(args.base_model_path.resolve()),
+            "--env-id",
+            prepared["env_id"],
+        ]
+    else:
+        trained, prepared, binding = read_run(args.model_path)
+        if args.env_id and args.env_id != prepared["env_id"]:
+            raise ValueError("--env-id differs from the trained policy")
+        final = inspect_final(args.model_path, trained, prepared)
+        worker_args = ["--run", str(args.model_path.resolve())]
     runtime_files = {
         path.relative_to(REPO_ROOT).as_posix(): sha(path)
         for directory in (REPO_ROOT / "tasks", REPO_ROOT / "utils")
@@ -434,13 +457,7 @@ def evaluate(args):
                 + ([environment["PYTHONPATH"]] if environment.get("PYTHONPATH") else [])
             )
             worker = PipeInference(
-                [
-                    args.policy_python,
-                    "-m",
-                    "utils.pi05_utils.runtime",
-                    "--run",
-                    str(args.model_path.resolve()),
-                ],
+                [args.policy_python, "-m", "utils.pi05_utils.runtime", *worker_args],
                 stderr=stderr,
                 environment=environment,
             )
