@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="44" viewBox="0 0 160 44" role="img" aria-labelledby="title">
+  <title id="title">Leaderboard</title>
+  <rect x=".5" y=".5" width="159" height="43" rx="9" fill="#EFF5FF" stroke="#C8DAFA"/>
+  <g transform="translate(13 12) scale(.83)" fill="none" stroke="#065DE4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V12h4v9M10 21V4h4v17M16 21v-6h4v6M2 21h20"/></g>
+  <text x="43" y="27" fill="#153C73" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700">Leaderboard</text>
+</svg>
