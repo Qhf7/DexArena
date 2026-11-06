@@ -1,0 +1,3 @@
+[submodule "libs/Isaac-GR00T"]
+	path = libs/Isaac-GR00T
+	url = https://github.com/NVIDIA/Isaac-GR00T

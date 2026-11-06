@@ -1,0 +1,33 @@
+DexArena PI0.5 LoRA integration
+
+The masked flow-matching implementation in algo/pi05.py is adapted from
+openpi/src/openpi/models/pi0.py in DexJoCo commit
+8d23b0fab23b17a58c4b55f3942e17013aaf8267, derived from Physical Intelligence OpenPI.
+DexArena adds per-timestep and per-channel loss masking, named absolute-joint
+interfaces, 32-to-58-dimensional action projections, and asynchronous execution.
+
+Upstream source: https://github.com/brave-eai/dexjoco/tree/8d23b0fab23b17a58c4b55f3942e17013aaf8267/openpi
+Original OpenPI: https://github.com/Physical-Intelligence/openpi
+Apache-2.0 license: LICENSE.openpi
+
+The upstream NOTICE is reproduced below.
+
+OpenPI π0.5 for DexJoCo
+
+This repository is derived from OpenPI, originally released under the
+Apache License, Version 2.0.
+
+DexJoCo-specific modifications include:
+
+- DexJoCo LeRobot data configs and normalization assets.
+- Single-arm and bimanual DexJoCo policy input/output adapters.
+- π0.5 action-dimension conversion utilities for 44-dimensional bimanual actions.
+- DexJoCo training, normalization, and tmux launch scripts.
+- Documentation and installation workflow for DexJoCo π0.5 training and serving.
+
+Files and examples unrelated to DexJoCo training may be omitted from this
+distribution.
+
+Gemma-based model components and checkpoints are subject to the Gemma Terms of
+Use. See LICENSE_GEMMA.txt in the upstream distribution. Users are responsible
+for obtaining and using checkpoints under the applicable model license terms.

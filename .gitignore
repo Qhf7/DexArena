@@ -218,3 +218,27 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+
+runs
+videos
+run_experiments
+data
+.worktrees/
+swanlog/
+
+# Generated screw-articulation URDFs (rebuilt on demand by
+# _generate_bottle_screw_urdf; one per bottle asset variant)
+tasks/assets/task_object_meshes/cabinet_pour/*/bottle_screw.urdf
+
+# Task object meshes are distributed with the dataset repository on the
+# Hugging Face Hub (SIPAIR/DexArena, assets/task_object_meshes/); download
+# them into this path. Never commit meshes here.
+/tasks/assets/task_object_meshes
+
+# Local encoder weights (never committed)
+checkpoints/
+
+# Slurm job output and local experiment directories (never committed)
+slurm-*.out
+/exp_*/
