@@ -28,10 +28,10 @@ class Args:
 
     # Environment and offline demo data (demos are mixed into online batches)
     env_id: str = tyro.MISSING
-    control_mode: Optional[str] = "pd_ee_delta_pose"
+    control_mode: Optional[str] = "pd_joint_pos"
     demo_data_path: str = demo_path("teleop_lerobot")
     sim_backend: Optional[str] = None
-    reward_mode: str = "normalized_dense"
+    reward_mode: str = "sparse"
     max_episode_steps: int = 200
 
     # Eval (reuses train_iql.make_eval_env / evaluate_policy)

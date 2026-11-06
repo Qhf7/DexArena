@@ -24,7 +24,7 @@ class Args:
 
     # Environment and offline data
     env_id: str = tyro.MISSING
-    control_mode: Optional[str] = "pd_ee_delta_pose"
+    control_mode: Optional[str] = "pd_joint_pos"
     demo_data_path: str = demo_path("teleop_lerobot")
     # Optional .npz files of explicit (s,a,r,s',done) counterfactual-branch
     # transitions: one off-trajectory env step taken from a recorded demo state.
@@ -45,7 +45,7 @@ class Args:
     num_eval_episodes: int = 100
     num_eval_steps: int = 300
     video_fps: int = 20
-    reward_mode: str = "normalized_dense"
+    reward_mode: str = "sparse"
 
     # Offline training
     bc_only: bool = False

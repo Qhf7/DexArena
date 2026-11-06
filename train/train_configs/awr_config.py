@@ -28,7 +28,7 @@ class Args:
 
     # Environment and offline data
     env_id: str = tyro.MISSING
-    control_mode: Optional[str] = "pd_ee_delta_pose"
+    control_mode: Optional[str] = "pd_joint_pos"
     demo_data_path: str = demo_path("teleop_lerobot")
     sim_backend: Optional[str] = None
     eval_reconfiguration_freq: Optional[int] = 1
@@ -37,7 +37,7 @@ class Args:
     num_eval_episodes: int = 4
     num_eval_steps: int = 500
     video_fps: int = 20
-    reward_mode: str = "normalized_dense"
+    reward_mode: str = "sparse"
 
     # Offline training
     total_updates: int = 200_000

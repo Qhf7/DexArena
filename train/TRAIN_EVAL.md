@@ -77,7 +77,8 @@ Then point any trainer at it, e.g.
 
 > **Hard constraints (read first)**
 > - `--control_mode` must match the demos' controller across Diffusion BC **and** DPPO
->   (demos here are `pd_ee_delta_pose`, 7-dim). A mismatch fails on action dim.
+>   (the released demonstrations are `pd_joint_pos`: 29 absolute joint targets for
+>   one arm and hand, 58 for both). A mismatch fails on action dim.
 > - The state BC/FQE/AWR/CQL/IQL/TD3+BC/OPT/SAC/RLPD workflows likewise require
 >   the environment observation/action dimensions and controller to match the
 >   LeRobot dataset. Keep reward semantics consistent whenever Q/V targets are
@@ -111,14 +112,17 @@ python train/train_ppo.py \
   --use_demo_init_states \
   --total_timesteps 50000000
 ```
-For `CabinetPouringOpenCabinet-Sharpa-v1`, pass `--control_mode pd_ee_delta_pose --reward_mode
-normalized_dense` and point `--bc_data_path/--demo_init_data_path` at the
-filtered demo set.
+The DexArena tasks use `pd_joint_pos` control and a sparse success reward
+(the trainer's defaults); point `--bc_data_path` / `--demo_init_data_path` at a
+released dataset (`data/sharpa/<env id>`). Logging goes to swanlab (`--track`,
+on by default for the PPO and diffusion trainers; `--no-track` disables it).
 
 ### Offline RL (`algo/offline_rl/`)
 
-Trained purely from a static LeRobot dataset; an environment is built only
-for periodic evaluation rollouts.
+Trained purely from a static LeRobot dataset (a released `data/sharpa/<env id>`
+directory); an environment is built only for periodic evaluation rollouts. The
+trainers default to `--reward_mode sparse`, the success indicator the DexArena
+tasks expose (`normalized_dense` is not available on them).
 
 #### State BC (`train_bc.py`)
 
@@ -130,10 +134,10 @@ off by default. The last action dimension can be emphasized with
 
 ```bash
 python train/train_bc.py \
-  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_ee_delta_pose \
-  --demo_data_path <lerobot-demo-root> --success_only \
+  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_joint_pos \
+  --demo_data_path data/sharpa/CabinetPouringOpenCabinet-Sharpa-v1 --success_only \
   --total_updates 100000 --batch_size 256 \
-  --exp_name ballgrasp_bc --track
+  --exp_name opencabinet_bc --track
 ```
 
 `--drop_object_pose` removes the seven flattened object-pose coordinates for
@@ -151,9 +155,9 @@ before using the result for AWR.
 
 ```bash
 python train/train_fqe.py \
-  --demo_data_path <lerobot-demo-root> \
+  --demo_data_path data/sharpa/CabinetPouringOpenCabinet-Sharpa-v1 \
   --gamma 0.99 --total_updates 200000 \
-  --exp_name ballgrasp_fqe --track
+  --exp_name opencabinet_fqe --track
 ```
 
 The checkpoint contains `qf`, `qf_target`, and the observation statistics.
@@ -168,11 +172,11 @@ not consume rewards or next states during its own updates.
 
 ```bash
 python train/train_awr.py \
-  --fqe_checkpoint runs/ballgrasp_fqe/final_ckpt.pt \
-  --demo_data_path <same-lerobot-demo-root> \
-  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_ee_delta_pose \
+  --fqe_checkpoint runs/opencabinet_fqe/final_ckpt.pt \
+  --demo_data_path data/sharpa/CabinetPouringOpenCabinet-Sharpa-v1 \
+  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_joint_pos \
   --iql_expectile 0.7 --iql_beta 3.0 \
-  --total_updates 200000 --exp_name ballgrasp_awr --track
+  --total_updates 200000 --exp_name opencabinet_awr --track
 ```
 
 The FQE observation statistics are reused verbatim. The resulting AWR
@@ -188,16 +192,16 @@ anchor; optional counterfactual transitions can be supplied through
 `--extra_npz_paths`.
 
 The defaults match the other offline trainers (`CabinetPouringOpenCabinet-Sharpa-v1`,
-`pd_ee_delta_pose`); override `--env_id`, `--control_mode` and
+`pd_joint_pos`); override `--env_id`, `--control_mode` and
 `--demo_data_path` together when using another dataset/task:
 
 ```bash
 python train/train_cql.py \
-  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_ee_delta_pose \
-  --demo_data_path <lerobot-demo-root> \
+  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_joint_pos \
+  --demo_data_path data/sharpa/CabinetPouringOpenCabinet-Sharpa-v1 \
   --cql_alpha 5.0 --cql_num_actions 10 \
   --bc_warmup_steps 10000 --actor_bc_weight 1.0 \
-  --total_updates 500000 --exp_name ballgrasp_cql --track
+  --total_updates 500000 --exp_name opencabinet_cql --track
 ```
 
 `--bc_only` uses the same trainer as a stochastic-actor BC diagnostic. For
@@ -213,11 +217,11 @@ sampling out-of-distribution actions inside the critic target.
 
 ```bash
 python train/train_iql.py \
-  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_ee_delta_pose \
-  --demo_data_path <lerobot-demo-root> --success_only \
+  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_joint_pos \
+  --demo_data_path data/sharpa/CabinetPouringOpenCabinet-Sharpa-v1 --success_only \
   --iql_expectile 0.7 --iql_beta 3.0 \
   --bc_warmup_steps 20000 --actor_bc_weight 1.0 \
-  --total_updates 500000 --exp_name ballgrasp_iql --track
+  --total_updates 500000 --exp_name opencabinet_iql --track
 ```
 
 As in CQL, `--bc_only` is a diagnostic mode. IQL also accepts branch-transition
@@ -235,10 +239,10 @@ CQL/IQL/SAC.
 
 ```bash
 python train/train_td3bc.py \
-  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_ee_delta_pose \
-  --demo_data_path <lerobot-demo-root> --success_only \
+  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_joint_pos \
+  --demo_data_path data/sharpa/CabinetPouringOpenCabinet-Sharpa-v1 --success_only \
   --policy_freq 2 --policy_noise 0.2 --noise_clip 0.5 --alpha 2.5 \
-  --total_updates 500000 --exp_name ballgrasp_td3bc --track
+  --total_updates 500000 --exp_name opencabinet_td3bc --track
 ```
 
 Optionally pass `--bc_checkpoint runs/<bc-run>/final_ckpt.pt` to initialize only
@@ -262,12 +266,12 @@ between offline and online value functions with the scheduled coefficient
 
 ```bash
 python train/train_opt.py \
-  --pretrained_checkpoint runs/ballgrasp_iql/final_ckpt.pt \
-  --demo_data_path <same-lerobot-demo-root> \
-  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_ee_delta_pose \
+  --pretrained_checkpoint runs/opencabinet_iql/final_ckpt.pt \
+  --demo_data_path data/sharpa/CabinetPouringOpenCabinet-Sharpa-v1 \
+  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_joint_pos \
   --opt_env_steps 25000 --opt_grad_steps 50000 \
   --total_env_steps 1000000 --offline_mix_fraction 0.5 \
-  --exp_name ballgrasp_opt --track
+  --exp_name opencabinet_opt --track
 ```
 
 Use `--checkpoint` to resume OPT itself. The online replay batch can continue
@@ -284,12 +288,12 @@ anchor.
 
 ```bash
 python train/train_sac.py \
-  --pretrained_checkpoint runs/ballgrasp_iql/final_ckpt.pt \
-  --demo_data_path <same-lerobot-demo-root> \
-  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_ee_delta_pose \
+  --pretrained_checkpoint runs/opencabinet_iql/final_ckpt.pt \
+  --demo_data_path data/sharpa/CabinetPouringOpenCabinet-Sharpa-v1 \
+  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_joint_pos \
   --total_env_steps 1000000 --updates_per_iter 16 \
   --offline_mix_fraction 0.5 \
-  --exp_name ballgrasp_sac --track
+  --exp_name opencabinet_sac --track
 ```
 
 `--checkpoint` means a full SAC resume and takes precedence over
@@ -306,11 +310,11 @@ subset (REDQ style).
 
 ```bash
 python train/train_rlpd.py \
-  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_ee_delta_pose \
-  --demo_data_path <lerobot-demo-root> \
+  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_joint_pos \
+  --demo_data_path data/sharpa/CabinetPouringOpenCabinet-Sharpa-v1 \
   --num_envs 1 --start_steps 5000 --utd_ratio 20 \
   --offline_mix_fraction 0.5 --total_env_steps 1000000 \
-  --exp_name ballgrasp_rlpd --track
+  --exp_name opencabinet_rlpd --track
 ```
 
 With `num_envs=1`, `utd_ratio` is exactly the number of critic updates per
@@ -561,21 +565,56 @@ temporal U-Net (100 DDPM steps, cosine schedule) and evaluates with
 receding-horizon execution.
 
 Training reads a prepared multi-camera NumPy dataset (`--demo-data-path <dir>`
-holding `dataset_info.json`, `state.npy`, `action.npy`, `images/<camera>.npy`,
-`episode_index.npy`, `global_index.npy` and `episodes.csv`), not a LeRobot
-dataset directly; the converter that renders the released demonstrations into
-that layout is not part of this repository yet. The released checkpoints
-(`ckpt/act/` and `ckpt/dp/` in the dataset repository) are evaluated as
-described under [Eval](#act-and-image-diffusion-policy). `--help` lists the
-training options of either trainer.
+holding `dataset_info.json`, `state.npy`, `action.npy`, `images/<camera>.npy`
+and `episodes.csv`), not a LeRobot dataset directly. Two steps produce it from
+a released dataset: render the episodes with the fixed cameras
+(`data_gen/render_pixel_demos.py`, the same renderer the pixel RL trainers use),
+then materialise the history offsets with `train/prepare_image_dataset.py`,
+which also prints the camera flags that match the arrays:
+
+```bash
+ENV=CabinetPouringOpenCabinet-Sharpa-v1
+python -m data_gen.render_pixel_demos --demo-path data/sharpa/$ENV --env-id $ENV \
+  --robot-uids panda_sharpa_hand_left_angled_mobile_base --control-mode pd_joint_pos \
+  --camera-preset cabinet_fixed --image-size 256 --max-episode-steps 600 \
+  --out data/pixels/${ENV}_256.h5
+python train/prepare_image_dataset.py --pixels data/pixels/${ENV}_256.h5 --out data/act/$ENV
+```
+
+The released checkpoints were trained with these settings (ACT 12k-20k steps,
+DP 20k steps, batch 16, on the 100 released episodes of each stage task):
+
+```bash
+CAMS="--camera-names base_camera_t0 base_camera_tm2 base_camera_tm4 task_wrist_camera_t0 task_wrist_camera_tm2 task_wrist_camera_tm4 \
+  --camera-map base_camera_t0=base_camera base_camera_tm2=base_camera base_camera_tm4=base_camera task_wrist_camera_t0=task_wrist_camera task_wrist_camera_tm2=task_wrist_camera task_wrist_camera_tm4=task_wrist_camera \
+  --camera-history-offsets base_camera_t0=0 base_camera_tm2=2 base_camera_tm4=4 task_wrist_camera_t0=0 task_wrist_camera_tm2=2 task_wrist_camera_tm4=4"
+ENVFLAGS="--env-id $ENV --task-module tasks --robot-uids panda_sharpa_hand_left_angled_mobile_base --control-mode pd_joint_pos \
+  --obs-mode rgb --env-kwarg show_guidance_markers=false --sim-backend physx_cpu --camera-preset cabinet_fixed --image-size 256 \
+  --policy-state-mode paths --online-state-paths agent.qpos --expected-raw-state-dim 29 --expected-policy-state-dim 29"
+
+python train/train_ACT.py --demo-data-path data/act/$ENV $ENVFLAGS $CAMS \
+  --validation-ratio 0.1 --image-mean 0.485 0.456 0.406 --image-std 0.229 0.224 0.225 \
+  --image-encoder-backbone resnet18 --image-encoder-pretrained --chunk-size 25 --prior-l1-weight 1.0 \
+  --action-loss-groups 0:7 7:29 --action-loss-group-weights 2.0 1.0 \
+  --batch-size 16 --num-workers 4 --steps 20000 --eval-every 1000 --save-every 1000 --num-eval-episodes 0 \
+  --output-dir runs/act --exp-name ${ENV}_s1 --seed 1
+
+python train/train_DP.py --demo-data-path data/act/$ENV $ENVFLAGS $CAMS --no-filter-success \
+  --batch-size 16 --num-workers 4 --steps 20000 --eval-every 1000 --save-every 1000 --num-eval-episodes 0 \
+  --check-env-before-training --output-dir runs/dp --exp-name ${ENV}_s1 --seed 1
+```
+
+The released checkpoints (`ckpt/act/` and `ckpt/dp/` in the dataset
+repository) are evaluated as described under
+[Eval](#act-and-image-diffusion-policy). `--help` lists every option.
 
 ### Diffusion BC (`train_diffusion.py`)
 
 MLP backbone:
 ```
 python train/train_diffusion.py \
-  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_ee_delta_pose \
-  --demo_data_path teleop_lerobot/env_CabinetPouringOpenCabinet-Sharpa-v1__filtered_bc \
+  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_joint_pos \
+  --demo_data_path data/sharpa/CabinetPouringOpenCabinet-Sharpa-v1 \
   --backbone mlp --mlp_dims 1024 1024 1024 1024 1024 1024 1024 1024 1024 1024 1024 \
   --residual_style --use_layernorm \
   --n_obs_steps 2 --horizon 16 --n_action_steps 8 \
@@ -587,8 +626,8 @@ python train/train_diffusion.py \
 U-Net backbone (swap `--backbone unet`; drop the MLP-only flags):
 ```
 python train/train_diffusion.py \
-  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_ee_delta_pose \
-  --demo_data_path teleop_lerobot/env_CabinetPouringOpenCabinet-Sharpa-v1__filtered_bc \
+  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_joint_pos \
+  --demo_data_path data/sharpa/CabinetPouringOpenCabinet-Sharpa-v1 \
   --backbone unet \
   --n_obs_steps 2 --horizon 16 --n_action_steps 8 \
   --num_epochs 500 --batch_size 256 --learning_rate 1e-4 \
@@ -601,27 +640,29 @@ much better than the MLP (~11M) but trains slower.
 
 ### DPPO fine-tune (`train_dppo.py`)
 
-Start from a BC checkpoint via `--base_policy_path`. The normalizer and backbone
-are inherited from that checkpoint. The config defaults already encode the
-**winning ShadowHandBallGrasp recipe** (sparse-hold + BC anchor + loose clip), so
-the command is minimal:
+Start from a diffusion BC checkpoint via `--base_policy_path`. The normalizer
+and backbone are inherited from that checkpoint, and `--denoising_steps` must
+equal the value the base was trained with (`train_diffusion.py` defaults to
+100; the fine-tuning entry point refuses a mismatch). The config defaults encode the
+sparse-hold + BC-anchor + loose-clip recipe, so the command is minimal:
 ```
 python train/train_dppo.py \
-  --base_policy_path runs/bc_forearm_unet_s1/final_ckpt.pt --backbone unet
+  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_joint_pos \
+  --base_policy_path runs/bc_unet_s1/final_ckpt.pt --backbone unet --denoising_steps 100
 # key defaults: reward_mode=sparse, ft_denoising_steps=5, use_bc_loss=True bc_coef=0.03,
 #   clip_ploss_coef=0.03, reward_scale=0.1, clip_vloss_coef=2.0, total_timesteps=5M
 ```
 For an MLP base policy, set `--backbone mlp` and append the **same** MLP flags
 used in BC (`--mlp_dims ... --residual_style --use_layernorm`).
 
-> **ShadowHand ball-grasp recipe (do not use dense).** Use **sparse** reward —
-> it is HOLD-type (success does not terminate; reward = #steps in success). Dense
-> **fails**: its "grasp+hover" plateau is a local optimum (reward↑ while success↓).
-> Two things make fine-tuning work: (a) `--use_bc_loss` BC anchor prevents the
-> success collapse; (b) `--clip_ploss_coef 0.03` — **not** 0.01: too tight makes
-> clipfrac ~90% and freezes the gradient. Sparse-hold returns are large, so pair
-> `--reward_scale 0.1` with `--clip_vloss_coef 2.0` to keep the value bounded.
-> Result: 64env success_once 0.375 (BC) → ~0.79. See `runs/README_dppo_ballgrasp.md`.
+> **Why these defaults.** The sparse reward is HOLD-type (success does not
+> terminate the episode; the return counts the steps spent in success). A dense
+> reward's "grasp and hover" plateau is a local optimum where reward rises while
+> success falls, so do not switch to it. `--use_bc_loss` anchors the policy to
+> the base and prevents the success collapse; `--clip_ploss_coef 0.03` rather
+> than 0.01 keeps the clip fraction below saturation so the gradient stays
+> alive; hold returns are large, so `--reward_scale 0.1` is paired with
+> `--clip_vloss_coef 2.0` to keep the value bounded.
 
 > **Memory:** U-Net DPPO at `--num_envs 128` uses ~26 GB (backprop through
 > `ft_denoising_steps` × the backbone). Drop `--num_envs` (e.g. 64) if you OOM.
@@ -726,7 +767,7 @@ python train/train_ppo.py --evaluate \
 ```bash
 python train/train_bc.py --evaluate \
   --checkpoint runs/<bc-run>/final_ckpt.pt \
-  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_ee_delta_pose \
+  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_joint_pos \
   --num_eval_episodes 100
 ```
 
@@ -744,7 +785,7 @@ against demonstration return-to-go during `train_fqe.py`.
 ```bash
 python train/train_awr.py --evaluate \
   --checkpoint runs/<awr-run>/final_ckpt.pt \
-  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_ee_delta_pose \
+  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_joint_pos \
   --num_eval_episodes 100
 ```
 
@@ -768,7 +809,7 @@ horizon and task arguments it was trained with.
 ```bash
 python train/train_iql.py --evaluate \
   --checkpoint runs/<iql-run>/final_ckpt.pt \
-  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_ee_delta_pose \
+  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_joint_pos \
   --num_eval_episodes 100
 ```
 
@@ -777,7 +818,7 @@ python train/train_iql.py --evaluate \
 ```bash
 python train/train_td3bc.py --evaluate \
   --checkpoint runs/<td3bc-run>/final_ckpt.pt \
-  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_ee_delta_pose \
+  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_joint_pos \
   --num_eval_episodes 100
 ```
 
@@ -791,7 +832,7 @@ through `--bc_checkpoint` is only an actor initialization for training.
 ```bash
 python train/train_opt.py --evaluate \
   --checkpoint runs/<opt-run>/final_ckpt.pt \
-  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_ee_delta_pose \
+  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_joint_pos \
   --num_eval_episodes 100
 ```
 
@@ -804,7 +845,7 @@ fine-tuned OPT result.
 ```bash
 python train/train_sac.py --evaluate \
   --checkpoint runs/<sac-run>/final_ckpt.pt \
-  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_ee_delta_pose \
+  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_joint_pos \
   --num_eval_episodes 100
 ```
 
@@ -816,7 +857,7 @@ actor, while `--checkpoint` evaluates a completed/resumed SAC agent.
 ```bash
 python train/train_rlpd.py --evaluate \
   --checkpoint runs/<rlpd-run>/final_ckpt.pt \
-  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_ee_delta_pose \
+  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_joint_pos \
   --num_eval_episodes 100
 ```
 
@@ -830,7 +871,7 @@ same ManiSkill evaluation wrapper used during periodic training evaluation.
 ```
 python train/train_diffusion.py --evaluate \
   --checkpoint runs/bc_unet_s1/final_ckpt.pt \
-  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_ee_delta_pose --reward_mode normalized_dense \
+  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_joint_pos --reward_mode sparse \
   --backbone unet --n_obs_steps 2 --horizon 16 --n_action_steps 8 \
   --num_eval_envs 64 --num_eval_steps 200 --num_eval_episodes 64 --seed 1
 ```
@@ -844,7 +885,7 @@ the BC base via `--base_policy_path`, **not** the fine-tuned weights):
 ```
 python train/train_dppo.py --evaluate \
   --base_policy_path runs/dppo_unet_dense_s1/ckpt_97.pt --backbone unet \
-  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_ee_delta_pose --reward_mode normalized_dense \
+  --env_id CabinetPouringOpenCabinet-Sharpa-v1 --control_mode pd_joint_pos --reward_mode sparse \
   --n_obs_steps 2 --horizon 16 --n_action_steps 8 --max_episode_steps 200 \
   --num_eval_envs 64 --num_eval_steps 200 --seed 1
 ```
@@ -899,7 +940,7 @@ Notes:
   metadata, resumable optimizer checkpoints and per-seed evaluation records;
   it does not claim SwanLab or
   TensorBoard integration.
-- **Reward modes:** `normalized_dense` (shaped, default for RL), `sparse`
+- **Reward modes:** the DexArena tasks expose `sparse` (the success indicator) and `none`; the trainers default to `sparse`.
   (success-only), set via `--reward_mode`. `return` is only comparable within
   the same reward mode; use `success_*` to compare across modes.
 

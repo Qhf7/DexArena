@@ -26,7 +26,7 @@ class Args:
     # Environment and offline demo data. Demos are mixed into online batches to
     # reduce unlearning, and optionally serve as the actor BC anchor.
     env_id: str = tyro.MISSING
-    control_mode: Optional[str] = "pd_ee_delta_pose"
+    control_mode: Optional[str] = "pd_joint_pos"
     demo_data_path: str = demo_path("teleop_lerobot")
     success_only: bool = True
     sim_backend: Optional[str] = None
