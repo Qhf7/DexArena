@@ -326,6 +326,21 @@ def make_env(args, capture_video: bool):
             "width": int(args.eval_sensor_size),
             "height": int(args.eval_sensor_size),
         }
+    if getattr(args, "camera_preset", None) is not None:
+        from utils.pixel_cameras import (
+            CAMERA_PRESETS,
+            PixelObsConfig,
+            shrink_sensors_for,
+        )
+
+        # The image policies are trained on the fixed image-policy cameras
+        # (docs/camera_setup/README.md); install them as the task's
+        # base_camera / task_wrist_camera sensors, as the pixel RL trainers do.
+        env_kwargs["sensor_configs"] = PixelObsConfig(
+            cameras=CAMERA_PRESETS[args.camera_preset],
+            width=int(args.image_size),
+            height=int(args.image_size),
+        ).sensor_configs(shrink_sensors=shrink_sensors_for(args.env_id))
 
     env_kwargs.update(parse_env_kwargs(args.env_kwarg))
 
@@ -3058,6 +3073,24 @@ def main() -> None:
             f"step="
             f"{checkpoint.get('step', 0)}"
         )
+        # Restore the observation contract the policy was trained with (camera
+        # mapping and history, image normalisation, state layout); inference and
+        # evaluation settings stay CLI-controlled, as in train_DP.py.
+        saved_args = checkpoint.get("args") or {}
+        for key in (
+            "camera_map",
+            "camera_history_offsets",
+            "image_mean",
+            "image_std",
+            "resize_mode",
+            "letterbox_value",
+            "policy_state_mode",
+            "online_state_paths",
+            "state_adapter",
+            "env_state_keys",
+        ):
+            if key in saved_args:
+                setattr(args, key, saved_args[key])
         check_environment(
             model,
             stats,

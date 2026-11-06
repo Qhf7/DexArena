@@ -92,8 +92,8 @@ dataset repository. CabinetPour bottle 4403 loads
 shell) and `body_col_hand/*.obj` (the solids the hand touches) in addition to
 its visual, lid and metadata files. Both directories ship with the assets; they
 were generated once from the visual mesh by a tool that is not part of this
-repository. Do not fall back to `body_col_proc`: that legacy radial envelope
-creates up to 4.85 mm of invisible outer collision and overlapping contact cells.
+repository. The earlier `body_col_proc` radial envelope (up to 4.85 mm of
+invisible outer collision and overlapping contact cells) is not shipped.
 
 ### Dual-arm
 

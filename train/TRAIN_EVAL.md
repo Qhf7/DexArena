@@ -549,6 +549,26 @@ the checkpoint on one of the native RoboCasa kitchen surfaces
 the training cameras; it requires `--sim-backend physx_cpu`, so episodes run
 serially.
 
+### ACT and image Diffusion Policy (`train_ACT.py`, `train_DP.py`)
+
+Both trainers learn from images. A policy query takes the fixed scene camera
+and the task's wrist camera at 256x256 (the cameras of
+[the camera guide](../docs/camera_setup/README.md)) at history offsets 0, 2 and
+4 control steps, six images in all, plus the current joint positions (29 for
+one arm and hand). ACT decodes a 25-step action chunk through a CVAE and
+evaluates with temporal ensembling; DP generates a 16-step chunk with a
+temporal U-Net (100 DDPM steps, cosine schedule) and evaluates with
+receding-horizon execution.
+
+Training reads a prepared multi-camera NumPy dataset (`--demo-data-path <dir>`
+holding `dataset_info.json`, `state.npy`, `action.npy`, `images/<camera>.npy`,
+`episode_index.npy`, `global_index.npy` and `episodes.csv`), not a LeRobot
+dataset directly; the converter that renders the released demonstrations into
+that layout is not part of this repository yet. The released checkpoints
+(`ckpt/act/` and `ckpt/dp/` in the dataset repository) are evaluated as
+described under [Eval](#act-and-image-diffusion-policy). `--help` lists the
+training options of either trainer.
+
 ### Diffusion BC (`train_diffusion.py`)
 
 MLP backbone:
@@ -628,6 +648,48 @@ with `--policy-python`.
 The `--evaluate --checkpoint <path>` convention below applies to PPO and
 Diffusion. DPPO has the caveat described in its subsection. PI0.5 uses the
 same `train_pi05.py --evaluate --model-path <run>` entry point.
+
+### ACT and image Diffusion Policy
+
+The released checkpoints expect the fixed image-policy cameras as the
+environment's `base_camera` and `task_wrist_camera` sensors; the task's default
+`base_camera` is a different view, and the checkpoints do not solve the task
+through it. `--camera-preset cabinet_fixed --image-size 256` installs them, the
+same way the pixel RL trainers do (`CAMERA_PRESETS` in `utils/pixel_cameras.py`;
+the preset serves every stage task). Camera names, history offsets, image
+normalisation and the state layout are read back from the checkpoint.
+
+```bash
+hf download SIPAIR/DexArena --repo-type dataset --local-dir . \
+  --include "ckpt/act/CabinetPouringOpenCabinet-Sharpa-v1/**" "ckpt/dp/CabinetPouringOpenCabinet-Sharpa-v1/**"
+
+# ACT: temporal ensembling, a new chunk every control step
+python train/train_ACT.py --evaluate --checkpoint ckpt/act/CabinetPouringOpenCabinet-Sharpa-v1/ckpt.pt \
+  --env-id CabinetPouringOpenCabinet-Sharpa-v1 --task-module tasks \
+  --robot-uids panda_sharpa_hand_left_angled_mobile_base --control-mode pd_joint_pos \
+  --obs-mode rgb --env-kwarg show_guidance_markers=false --sim-backend physx_cpu \
+  --camera-preset cabinet_fixed --image-size 256 \
+  --num-eval-episodes 50 --num-eval-steps 400 --eval-seed 1 --eval-reconfiguration-freq 0
+
+# DP: receding-horizon execution of the generated 16-step chunk
+python train/train_DP.py --evaluate --checkpoint ckpt/dp/CabinetPouringOpenCabinet-Sharpa-v1/ckpt.pt \
+  --env-id CabinetPouringOpenCabinet-Sharpa-v1 --task-module tasks \
+  --robot-uids panda_sharpa_hand_left_angled_mobile_base --control-mode pd_joint_pos \
+  --obs-mode rgb --env-kwarg show_guidance_markers=false --sim-backend physx_cpu \
+  --camera-preset cabinet_fixed --image-size 256 --action-chunk-size 16 \
+  --num-eval-episodes 50 --num-eval-steps 600 --eval-seed 1 --eval-reconfiguration-freq 0
+```
+
+The checkpoint directories on the Hub are named by the current `<Task>-<Hand>-v1`
+ids; each `config.json` records the id the baseline was trained under.
+The reported number is `eval_success_once_mean`; `--capture-video
+--max-eval-videos N` saves renders of the first N episodes next to the
+checkpoint. `--action-chunk-size` is the number of actions DP executes per
+generated chunk (default 4). On `CabinetPouringOpenCabinet-Sharpa-v1` the
+released DP checkpoint succeeds in 11 of 15 episodes with `--action-chunk-size 16`
+and in 3 of 15 with the default over the same seeds, so the value has to be
+stated with any DP result; ACT succeeds in 11 of 11 with its default
+ensembling.
 
 ### PI0.5 asynchronous task-level evaluation
 

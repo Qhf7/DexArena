@@ -58,6 +58,12 @@ class Args:
     video_fps: int = 20
     eval_sensor_size: Optional[int] = None
     """Override all evaluation policy cameras to a square size."""
+    camera_preset: Optional[str] = None
+    """Install the fixed image-policy cameras of this preset (`CAMERA_PRESETS` in utils/pixel_cameras.py)
+    as the environment's sensors, at image_size pixels; the released ACT/DP checkpoints need
+    `cabinet_fixed`. Takes precedence over eval_sensor_size."""
+    image_size: int = 256
+    """Side of the square images rendered by the camera_preset sensors."""
     eval_initial_state_dataset: Optional[str] = None
     """Optional RoboDex dataset whose recorded episode-start raw states seed eval."""
     eval_initial_episode_ids: Tuple[int, ...] = ()
@@ -251,6 +257,15 @@ def validate_args(args: Args) -> Args:
         raise ValueError("gpu_id must be non-negative")
     if args.eval_sensor_size is not None and args.eval_sensor_size <= 0:
         raise ValueError("eval_sensor_size must be positive")
+    if args.camera_preset is not None:
+        from utils.pixel_cameras import CAMERA_PRESETS
+
+        if args.camera_preset not in CAMERA_PRESETS:
+            raise ValueError(
+                f"Unknown camera_preset {args.camera_preset!r}; have {sorted(CAMERA_PRESETS)}"
+            )
+        if args.image_size <= 0:
+            raise ValueError("image_size must be positive")
     if (
         args.eval_initial_episode_ids
         and len(args.eval_initial_episode_ids) < args.num_eval_episodes

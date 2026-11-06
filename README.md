@@ -115,7 +115,7 @@ hf download SIPAIR/DexArena --repo-type dataset --include "data/sharpa/DrawerPlu
 ## Train and evaluate
 
 - PPO, DPPO, the offline (BC, FQE, AWR, CQL, IQL, TD3+BC) and offline-to-online (OPT, SAC, RLPD) agents, and training from pixels: [train/TRAIN_EVAL.md](train/TRAIN_EVAL.md)
-- ACT, image Diffusion Policy and online IQL fine-tuning: `train/train_ACT.py`, `train/train_DP.py` and `train/train_iql_online.py` (`--help` lists the options; the ACT and Diffusion Policy checkpoints are `ckpt/act` and `ckpt/dp` on the Hub)
+- ACT and image Diffusion Policy (checkpoints `ckpt/act` and `ckpt/dp` on the Hub): [train/TRAIN_EVAL.md](train/TRAIN_EVAL.md); online IQL fine-tuning: `train/train_iql_online.py --help`
 - PI0.5: [docs/PI05.md](docs/PI05.md)
 - GR00T N1.7: [docs/GROOT_DEXARENA.md](docs/GROOT_DEXARENA.md)
 - Cross-scene evaluation of the 30 stage tasks: [docs/howto_cross_scene_eval.md](docs/howto_cross_scene_eval.md)
