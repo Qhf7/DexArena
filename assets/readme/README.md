@@ -3,8 +3,8 @@
 These local assets are used by the repository homepage, so its header and
 navigation do not depend on a third-party badge or image host.
 
-- `hero.svg`: original vector layout using the existing DexArena hand-and-cube
-  artwork from the project website's `src/brand/dexarena-logo.svg`.
+- `logo.svg`: the existing DexArena hand-and-cube artwork from the project
+  website's `src/brand/dexarena-logo.svg`, on a transparent background.
 - `website.svg`, `paper.svg`, `dataset.svg`, `leaderboard.svg`,
   `get-started.svg`: original, static SVG navigation buttons. Links are defined
   in the root README; the images contain no scripts or external resources.

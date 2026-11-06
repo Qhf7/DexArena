@@ -1,7 +1,7 @@
 <a id="top"></a>
 
 <p align="center">
-  <img src="assets/readme/hero.svg" width="100%" alt="DexArena — a unified benchmark for long-horizon dexterous manipulation">
+  <img src="assets/readme/logo.svg" width="132" alt="DexArena logo">
 </p>
 
 <h1 align="center">DexArena</h1>
