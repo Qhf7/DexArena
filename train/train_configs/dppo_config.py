@@ -33,7 +33,7 @@ class _Common:
 
     # Environment identity (shared so obs/action dims are derived consistently)
     env_id: str = tyro.MISSING
-    control_mode: Optional[str] = "pd_ee_delta_pose"
+    control_mode: Optional[str] = "pd_joint_pos"
     reward_mode: Optional[str] = "sparse"
     """environment reward mode (e.g. `sparse`); `None` uses the env default"""
     sim_backend: Optional[str] = None

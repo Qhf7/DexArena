@@ -46,7 +46,7 @@ class Args:
     # Use `--robot-uids panda_sharpa_hand_right` to force Sharpa explicitly.
     robot_uids: Optional[str] = None
     # ``pd_joint_pos`` is backed by the repo's Franka joint-impedance arm.
-    control_mode: Optional[str] = "pd_ee_delta_pose"
+    control_mode: Optional[str] = "pd_joint_pos"
     # LeRobot dataset root (or glob) holding the prior data. Must have been
     # collected on the same env/robot/control mode as the online env.
     demo_data_path: str = demo_path("teleop_lerobot")
@@ -58,7 +58,7 @@ class Args:
     sim_backend: Optional[str] = None
     # Which reward the env returns. "sparse" is the {0, 1} goal indicator the
     # cabinet runs use; "normalized_dense" is the shaped one.
-    reward_mode: str = "normalized_dense"
+    reward_mode: str = "sparse"
     # Time limit for a *training* episode, in env steps.
     max_episode_steps: int = 300
 

@@ -39,7 +39,10 @@ export GROOT_BACKBONE_PATH=/models/nvidia/Cosmos-Reason2-2B   # optional: a loca
 instead of the Hub: `scripts/groot/setup_env.sh` patches GR00T's finetune launcher to honour it,
 and `algo/groot.py` repoints each checkpoint's baked-in reference at load time (the path must
 contain `nvidia/Cosmos-Reason2`, which is how GR00T picks the backbone class). Without it, a
-logged-in Hub token with access to `nvidia/Cosmos-Reason2-2B` is needed.
+logged-in Hub token with access to `nvidia/Cosmos-Reason2-2B` is needed. The loader writes the
+local path into the checkpoint's own `config.json` and `processor_config.json` (`model_name`) and
+leaves an existing directory path alone afterwards, so a checkpoint loaded once with one local
+path keeps it: restore `model_name` to `nvidia/Cosmos-Reason2-2B` before pointing it elsewhere.
 
 ## 1. Render a subtask dataset
 

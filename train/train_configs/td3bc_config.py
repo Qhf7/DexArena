@@ -28,10 +28,10 @@ class Args:
 
     # Environment and offline data
     env_id: str = tyro.MISSING
-    control_mode: Optional[str] = "pd_ee_delta_pose"
+    control_mode: Optional[str] = "pd_joint_pos"
     demo_data_path: str = demo_path("teleop_lerobot")
     sim_backend: Optional[str] = None
-    reward_mode: str = "normalized_dense"
+    reward_mode: str = "sparse"
     # Keep only successful demonstrations (any frame reaches `next.success`).
     # Failed/timeout demos are dropped before any batch is sampled. Disable with
     # `--no-success-only` to train on the full dataset.

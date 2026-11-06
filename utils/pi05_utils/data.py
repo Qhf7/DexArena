@@ -249,7 +249,11 @@ def camera_mapping(prepared):
 
 
 def read_data_contract(path, binding):
-    prepared = json.loads(Path(path).read_text())
+    return validate_data_contract(json.loads(Path(path).read_text()), binding)
+
+
+def validate_data_contract(prepared, binding):
+    """Check a prepared data contract (a dict) against the controller binding."""
     if prepared.get("prompt_sha256", SOURCE_SHA256) != SOURCE_SHA256:
         raise ValueError("Prepared data uses a different instruction protocol")
     names = prepared["controller_names"]

@@ -26,10 +26,10 @@ class Args:
     env_id: str = tyro.MISSING
     # None keeps the environment's own default robot.
     robot_uids: Optional[str] = None
-    control_mode: Optional[str] = "pd_ee_delta_pose"
+    control_mode: Optional[str] = "pd_joint_pos"
     demo_data_path: str = demo_path("teleop_lerobot")
     sim_backend: Optional[str] = None
-    reward_mode: str = "normalized_dense"
+    reward_mode: str = "sparse"
     # Drop the 7D `object_pose` feature from the flattened state observation.
     drop_object_pose: bool = False
     # Keep only successful demonstrations (any frame reaches `next.success`).

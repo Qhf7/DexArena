@@ -275,6 +275,43 @@ def verify_base(root, manifest):
         raise ValueError("Pretrained checkpoint file inventory differs from its manifest")
 
 
+def is_compact_package(root):
+    """A published inference-only package (``pi05_trainable_npz_v1``) rather than a run."""
+    root = Path(root).resolve()
+    return (root / "manifest.json").is_file() and (root / "ckpt" / "trainable.npz").is_file()
+
+
+def read_package(root, binding_path, env_id=None):
+    """Admit a published package with an independently written controller binding.
+
+    The package carries its data contract and base manifest; the binding comes
+    from ``utils.pi05_utils.binding``. ``env_id`` evaluates the package in that
+    registered environment when the package was trained under an earlier id of
+    the same task; the trained id is kept as ``trained_env_id``.
+    """
+    from utils.pi05_utils.compact import read_compact_config
+    from utils.pi05_utils.data import validate_data_contract
+
+    root = Path(root).resolve()
+    config = read_compact_config(root)
+    prepared = dict(config["data_contract"])
+    if env_id and env_id != prepared["env_id"]:
+        prepared["trained_env_id"] = prepared["env_id"]
+        prepared["env_id"] = env_id
+    binding = json.loads(Path(binding_path).read_text())
+    validate_data_contract(prepared, binding)
+    identity = dict(
+        baseline=BASELINE,
+        prompt_sha256=SOURCE_SHA256,
+        config=config["training"],
+        identity_sha256=config["identity_sha256"],
+        optimizer_updates=config["optimizer_updates"],
+        package=str(root),
+        inference_only=True,
+    )
+    return identity, prepared, binding
+
+
 def read_run(root):
     root = Path(root).resolve()
     identity = json.loads((root / "identity.json").read_text())
